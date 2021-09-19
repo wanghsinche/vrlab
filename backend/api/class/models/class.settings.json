@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "classes",
+  "info": {
+    "name": "class"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "students": {
+      "via": "class",
+      "plugin": "users-permissions",
+      "collection": "user"
+    }
+  }
+}

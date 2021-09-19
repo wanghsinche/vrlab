@@ -8,7 +8,7 @@ import { LOGIN } from "@/utils/schema";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 const Sign: React.FC = () => {
     const [form] = Form.useForm();
-    const [login, { data, loading, error }] = useMutation(LOGIN, {});
+    const [login, { data, loading, error }] = useMutation(LOGIN);
 
     useEffect(() => {
         if (error) {

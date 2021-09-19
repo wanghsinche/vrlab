@@ -59,8 +59,16 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "studentid": {
+    "realid": {
       "type": "string"
+    },
+    "class": {
+      "via": "students",
+      "model": "class"
+    },
+    "realname": {
+      "type": "string",
+      "required": true
     }
   }
 }

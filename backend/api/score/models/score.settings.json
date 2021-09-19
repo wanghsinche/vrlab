@@ -21,6 +21,9 @@
     },
     "course": {
       "model": "course"
+    },
+    "detail": {
+      "type": "json"
     }
   }
 }

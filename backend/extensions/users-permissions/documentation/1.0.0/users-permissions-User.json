@@ -1188,7 +1188,8 @@
         "required": [
           "id",
           "username",
-          "email"
+          "email",
+          "realname"
         ],
         "properties": {
           "id": {
@@ -1251,7 +1252,38 @@
               }
             }
           },
-          "studentid": {
+          "realid": {
+            "type": "string"
+          },
+          "class": {
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "students": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "published_at": {
+                "type": "string"
+              },
+              "created_by": {
+                "type": "string"
+              },
+              "updated_by": {
+                "type": "string"
+              }
+            }
+          },
+          "realname": {
             "type": "string"
           }
         }
@@ -1259,7 +1291,8 @@
       "NewUsersPermissionsUser": {
         "required": [
           "username",
-          "email"
+          "email",
+          "realname"
         ],
         "properties": {
           "username": {
@@ -1295,7 +1328,13 @@
           "role": {
             "type": "string"
           },
-          "studentid": {
+          "realid": {
+            "type": "string"
+          },
+          "class": {
+            "type": "string"
+          },
+          "realname": {
             "type": "string"
           },
           "created_by": {

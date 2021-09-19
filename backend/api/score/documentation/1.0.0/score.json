@@ -529,7 +529,8 @@
             "required": [
               "id",
               "username",
-              "email"
+              "email",
+              "realname"
             ],
             "properties": {
               "id": {
@@ -562,7 +563,13 @@
               "role": {
                 "type": "string"
               },
-              "studentid": {
+              "realid": {
+                "type": "string"
+              },
+              "class": {
+                "type": "string"
+              },
+              "realname": {
                 "type": "string"
               },
               "created_by": {
@@ -604,6 +611,9 @@
               }
             }
           },
+          "detail": {
+            "type": "object"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -620,6 +630,9 @@
           },
           "course": {
             "type": "string"
+          },
+          "detail": {
+            "type": "object"
           },
           "published_at": {
             "type": "string",

@@ -21,16 +21,6 @@ query me{
 }
 `;
 
-
-export interface IME {
-    email: string;
-    id: string;
-    username: string;
-    role: {
-        name: 'Authenticated'|'Public'
-    }
-  };
-
 export const LIST_COURSES = gql `
 query listCourses{
     courses{
@@ -47,22 +37,6 @@ query listCourses{
 }
 `;
 
-export interface ILIST_COURSES {
-    courses: {
-        id: string;
-        name:string;
-        description: string;
-        cover: {
-            url: string;
-        }
-    }[];
-    coursesConnection: {
-        aggregate: {
-            count: number;
-        }
-    }
-}
-
 export const COURSE_DETAIL = gql`
     query courseDetail($id: ID! ) {
         course(id:$id){
@@ -71,11 +45,50 @@ export const COURSE_DETAIL = gql`
     }
 `;
 
-export interface ICOURSE_DETAIL {
-    course: {
-        id: string;
-        content:string;
-        name: string;
-        description: string;
-    }
+
+export const GETSCORE = gql`
+query getScore($student:String!, $course:String!){
+  scores(where:{student_eq:$student, course_eq:$course}){
+    student{realname}
+    course{name}
+    point,
+    detail,
+    id
+  }
 }
+`;
+
+export const updateScore = gql`
+mutation updateScore($point:Int!, $detail:JSON!, $id:ID!){
+  updateScore(input:{
+    data: {
+      point:$point, detail: $detail
+    },
+    where:{
+      id: $id
+    }
+  }){
+    score{
+      point, student{
+        realname
+      }, course{
+        name
+      }
+    }
+  }
+}
+`;
+
+export const createScore = gql`
+mutation createScore($point:Int!, $detail:JSON!, $student:ID!, $course:ID!){
+  createScore(input:{
+    data:{
+      point: $point, detail:$detail,student:$student,course:$course
+    }
+  }){
+    score{
+      point,id
+    }
+  }
+}
+`;
