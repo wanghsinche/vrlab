@@ -5,16 +5,18 @@ import {
 import React from 'react';
 import token from '@/utils/token';
 import { client } from './utils/graphql';
-import { ME, IME } from './utils/schema';
+import { ME } from './utils/schema';
+import { MeQuery } from '@/generated/graphql';
 import { history } from 'umi';
 import Footer from '@/components/footer';
 export const layout = ({
   initialState,
 }: {
-  initialState: { settings?: LayoutSettings, me?: IME };
+  initialState: { settings?: LayoutSettings, me?: MeQuery['me'] };
 }): BasicLayoutProps => {
   return {
     onPageChange: () => {
+      console.log(initialState?.me);
     },
     rightContentRender: ()=>{
         return React.createElement('a', {

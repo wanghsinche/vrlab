@@ -4,8 +4,9 @@ import ContentLayout from '@/components/contentlayout';
 const columns = [
     {
         title: 'id',
-        dataIndex: 'id',
+        dataIndex: 'key',
         key: 'id',
+        render: (text: string) => <a>{text}</a>,
     },
     {
         title: 'Name',
@@ -39,7 +40,7 @@ const columns = [
         render: (_:string, record: any) => (
             <Space size="middle">
                 <a>View</a>
-                <a>Delete</a>
+                <a>导出成绩</a>
             </Space>
         ),
     },
@@ -47,33 +48,24 @@ const columns = [
 
 const data = [
     {
-        id: '1',
         key: '1',
-        name: '2020级机电一班',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
+        name: 'VR课堂',
         tags: ['nice', 'developer'],
     },
     {
-        id: '2',
         key: '2',
-        name: '2020级机械2班',
-        age: 42,
-        address: 'London No. 1 Lake Park',
+        name: 'ＵＮＩＴＹ制作',
         tags: ['loser'],
     },
     {
-        id: '3',
         key: '3',
-        name: '2020级机械一班',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
+        name: 'ＡＲ考试',
         tags: ['cool', 'teacher'],
     },
 ];
 
-export default function ClassPage() { 
-    return <ContentLayout title="Classroom">
+export default function CourseMgrPage() { 
+    return <ContentLayout title="Course Manage">
         <Table columns={columns} dataSource={data} /> 
     </ContentLayout>;
 };

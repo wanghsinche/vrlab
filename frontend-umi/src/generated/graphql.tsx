@@ -2117,3 +2117,10 @@ export type CreateScoreMutationVariables = Exact<{
 
 
 export type CreateScoreMutation = { __typename?: 'Mutation', createScore?: Maybe<{ __typename?: 'createScorePayload', score?: Maybe<{ __typename?: 'Score', point?: Maybe<number>, id: string }> }> };
+
+export type ProfileQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type ProfileQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'UsersPermissionsUser', realid?: Maybe<string>, realname: string, class?: Maybe<{ __typename?: 'Class', name?: Maybe<string> }> }> };

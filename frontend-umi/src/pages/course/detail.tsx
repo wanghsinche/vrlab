@@ -22,7 +22,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
 
     const [opUpdateScore, resUpdateScore] = useMutation<UpdateScoreMutation, UpdateScoreMutationVariables>(updateScore);
     const [opCreateScore, resCreateScore] = useMutation<CreateScoreMutation, CreateScoreMutationVariables>(createScore);
-
+    const [learning, setLearning] = useState<'yet'|'learning'|'done'>('yet');
 
     const score = scoreData?.scores && scoreData?.scores[0];
 
@@ -30,30 +30,42 @@ const Detail: React.FC<{ id: string }> = (p) => {
         if (!meData?.me?.id) {
             return;
         }
+        setLearning('learning');
         if (score) {
-            opUpdateScore({variables:{
-                point: Math.ceil(100*Math.random()),
-                detail: JSON.stringify({"process1":50, "process2":10}),
-                id: score.id
-            }});
+            const scoreid = score.id;
+            setTimeout(()=>{
+                opUpdateScore({variables:{
+                    point: Math.ceil(100*Math.random()),
+                    detail: JSON.stringify({"process1":50, "process2":10}),
+                    id: scoreid
+                }});    
+            }, 3000);
         } else {
-            opCreateScore({variables:{
-                point: Math.ceil(100*Math.random()),
-                detail: JSON.stringify({"process1":50, "process2":10}),
-                course: p.id,
-                student: meData.me.id
-            }});
+            const meid = meData.me.id;
+            setTimeout(() => {
+                opCreateScore({variables:{
+                    point: Math.ceil(100*Math.random()),
+                    detail: JSON.stringify({"process1":50, "process2":10}),
+                    course: p.id,
+                    student: meid
+                }});                    
+            }, 5000);
         }
     }, [score, p.id, meData?.me?.id]);
 
+    const finishLearning = useCallback(()=>{
+        refetchScore();
+        message.success("refresh the course, you can check and leave the course")
+    }, []);
+
     useEffect(()=>{
         if (resUpdateScore.data) {
-            message.success('update score!');
-            refetchScore();
+            message.success('update score! please click finish');
+            setLearning('done');
         }
         if (resCreateScore.data) {
-            message.success('create score!');
-            refetchScore();
+            message.success('create score! please click finish');
+            setLearning('done');
         }
 
         if (resUpdateScore.error || resCreateScore.error){
@@ -68,12 +80,17 @@ const Detail: React.FC<{ id: string }> = (p) => {
             <Text>course id: {data?.course?.id}</Text>
             {score && <Paragraph>Last Score: <Progress percent={Number(score?.point)} /></Paragraph>}
             <Paragraph>student id: {meData?.me?.id}</Paragraph>
+            <Button.Group>
+            <Button onClick={giveScore} type="primary" loading={learning === 'learning'} disabled={learning==='done'}>Start Learning</Button>
+            <Button onClick={finishLearning} disabled={learning!=='done'}>Finish Learning</Button>
+            </Button.Group>
+            
+            <Divider />
+
             <Paragraph>
                 <ReactMarkdown className="markdown">{data?.course?.content ? resolveUploadsURL(data?.course.content) : ''}</ReactMarkdown>
             </Paragraph>
         </Typography>
-        <Divider />
-        <Button onClick={giveScore} type="primary" loading={resCreateScore.loading||resUpdateScore.loading}>Finish</Button>
     </ContentLayout>;
 }
 

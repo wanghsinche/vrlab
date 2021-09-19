@@ -1,5 +1,5 @@
 class Token {
-    private permanent = false;
+    public permanent = false;
     private token = '';
     set val (t:string){
         if (this.permanent) {

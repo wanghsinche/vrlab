@@ -37,7 +37,7 @@ const Sign: React.FC = () => {
             form={form}
             name="normal_login"
             className="login-form"
-            initialValues={{ remember: true }}
+            initialValues={{ remember: token.permanent }}
             onFinish={onFinish}
         >
             <Form.Item

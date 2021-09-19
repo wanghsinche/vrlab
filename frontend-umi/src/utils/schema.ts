@@ -92,3 +92,14 @@ mutation createScore($point:Int!, $detail:JSON!, $student:ID!, $course:ID!){
   }
 }
 `;
+
+export const PROFILE = gql`
+query profile($id:ID!){
+  user(id:$id){
+    realid, realname,class{
+      name
+    }
+  }
+}
+
+`;
