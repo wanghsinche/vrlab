@@ -16,10 +16,22 @@ export default defineConfig({
       // Do not show the menu top bar
       menuHeaderRender: false,
     },
-    { path: '/course', component: '@/pages/course', name: 'Course', icon: 'ExperimentTwoTone', 
+    { path: '/course', component: '@/pages/course', name: 'Course', icon: 'ExperimentOutlined', 
       access: 'forStudent',
     },
-    {path: '/course/:id', component: '@/pages/course/detail', access: 'forStudent',}
+    {path: '/course/:id', component: '@/pages/course/detail', access: 'forStudent',},
+    {path: '/manage', name: 'manage', icon: 'AppstoreOutlined', routes: [
+      { path: 'student', component: '@/pages/student', name: 'Student', icon: 'TeamOutlined', 
+        access: 'forStudent',
+      },
+      { path: 'classroom', component: '@/pages/classroom', name: 'Classroom', icon: 'HomeOutlined', 
+        access: 'forStudent',
+      },
+    ]},
+    { path: '/profile', component: '@/pages/profile', name: 'Profile', icon: 'ProfileOutlined', 
+      access: 'forStudent',
+    },
+
   ],
   fastRefresh: {},
   layout:{
