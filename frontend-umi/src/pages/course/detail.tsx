@@ -6,7 +6,7 @@ import { COURSE_DETAIL, ICOURSE_DETAIL } from '@/utils/schema';
 import ReactMarkdown from 'react-markdown'
 import { resolveUploadsURL } from '@/utils/resolveurl';
 import { history } from 'umi';
-
+import ContentLayout  from '@/components/contentlayout';
 import './detail.less';
 
 const { Title, Paragraph, Text, Link } = Typography;
@@ -19,7 +19,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
 
     }, []);
 
-    return <div>
+    return <ContentLayout>
         <PageHeader onBack={history.goBack} className="site-page-header" title="Course List"/>
         <Typography>
             <Title>{data?.course.name}</Title>
@@ -31,7 +31,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
         </Typography>
         <Divider />
         <Button onClick={giveScore} type="primary">Finish</Button>
-    </div>;
+    </ContentLayout>;
 }
 
 export default function DetailPage(p: any) {

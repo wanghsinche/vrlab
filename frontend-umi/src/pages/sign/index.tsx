@@ -75,7 +75,7 @@ function SignPage() { return <ApolloProvider client={client}><Sign /></ApolloPro
 const Page = () => {
     return <Layout>
         <Layout.Header style={{ color: "#ffffff" }}> VR Lab </Layout.Header>
-        <Layout.Content style={{background: '#fff', minHeight: 200}}>
+        <Layout.Content style={{background: '#fff'}}>
             <Card >
                 <SignPage />
             </Card>

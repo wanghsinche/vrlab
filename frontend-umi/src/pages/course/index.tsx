@@ -4,6 +4,8 @@ import { ApolloProvider, useQuery } from '@apollo/client';
 import { client, serverURL } from '@/utils/graphql';
 import { LIST_COURSES, ILIST_COURSES } from '@/utils/schema';
 import { Link } from 'umi';
+import ContentLayout  from '@/components/contentlayout';
+
 const Course: React.FC = () => {
     const { data } = useQuery<ILIST_COURSES>(LIST_COURSES);
 
@@ -13,12 +15,12 @@ const Course: React.FC = () => {
         <p>{el.description}</p>
     </Card>));
 
-    return <div>
+    return <ContentLayout>
         <h1>Course</h1>
         <Space>
             {items}
         </Space>
-    </div>;
+    </ContentLayout>;
 }
 
 export default function CoursePage() {
