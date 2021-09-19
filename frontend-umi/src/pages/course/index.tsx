@@ -16,8 +16,7 @@ const Course: React.FC = () => {
             <p>{el?.description}</p>
         </Card>));
 
-    return <ContentLayout>
-        <h1>Course</h1>
+    return <ContentLayout title="Course List">
         <Space>
             {items}
         </Space>

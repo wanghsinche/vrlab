@@ -75,8 +75,7 @@ const data = [
 ];
 
 export default function StudentPage() { 
-    return <ContentLayout>
-        <h1>Students</h1>
+    return <ContentLayout title="Student">
         <Table columns={columns} dataSource={data} /> 
     </ContentLayout>;
 };

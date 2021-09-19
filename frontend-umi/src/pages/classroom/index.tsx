@@ -73,8 +73,7 @@ const data = [
 ];
 
 export default function ClassPage() { 
-    return <ContentLayout>
-        <h1>Class</h1>
+    return <ContentLayout title="Classroom">
         <Table columns={columns} dataSource={data} /> 
     </ContentLayout>;
 };
