@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "scores",
+  "info": {
+    "name": "score",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "point": {
+      "type": "integer"
+    },
+    "student": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "course": {
+      "model": "course"
+    }
+  }
+}
