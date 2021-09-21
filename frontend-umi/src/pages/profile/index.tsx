@@ -1,14 +1,12 @@
-import { Descriptions, Tag, Form, Button, Input, Select, message, Modal } from 'antd';
+import { Descriptions, Tag, Form, Button, Input, Select, message, Popconfirm } from 'antd';
 import { FormItemProps } from 'antd/es/form/FormItem';
 import ContentLayout from '@/components/contentlayout';
 import { ApolloProvider, useMutation, useQuery } from '@apollo/client';
 import { client } from '@/utils/graphql';
-import { ME, PROFILE, CLASSES, updateProfile, resetPassword } from '@/utils/schema';
+import { ME, PROFILE, CLASSES, updateProfile } from '@/utils/schema';
 import { MeQuery, ProfileQuery, ClassroomQuery, UpdateProfileMutation, UpdateProfileMutationVariables, ResetPasswordMutation, ResetPasswordMutationVariables } from '@/generated/graphql';
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
-import { LockOutlined } from "@ant-design/icons";
-import token from '@/utils/token';
-
+import { useCallback, useEffect, useState } from 'react';
+import { PasswordForm } from './password';
 const FormItem = (p: FormItemProps) => {
     const { children, ...others } = p;
     return <Form.Item noStyle={true} rules={[{ required: false }]} {...others}>{children}</Form.Item>;
@@ -84,12 +82,12 @@ const Profile = () => {
             </FormItem>
         </Descriptions.Item>
         <Descriptions.Item label="Password">
-            <Button onClick={() => setReseting(true)} type="link" disabled={reseting}>Reset Password</Button>
+            <Button onClick={() => setReseting(true)} type="link" disabled={reseting || editing}>Reset Password</Button>
         </Descriptions.Item>
 
         <Descriptions.Item label="Action" span={2}>
             <Button.Group>
-                {editing && <Button htmlType="submit" type="primary" loading={loading}>Save</Button>}
+                {editing && <Popconfirm title="Are you sure?" onConfirm={()=>form.submit()}><Button htmlType="submit" type="primary" loading={loading}>Save</Button></Popconfirm>}
                 {editing && <Button onClick={() => setEditing(false)}>Cancel</Button>}
                 {!editing && <Button type="primary" onClick={() => setEditing(true)}>Update Profile</Button>}
             </Button.Group>
@@ -110,65 +108,6 @@ const Profile = () => {
     </div>;
 };
 
-
-const PasswordForm = (p: PropsWithChildren<{ show: boolean, onClose: () => void }>) => {
-    const [form] = Form.useForm();
-    const { data: meData } = useQuery<MeQuery>(ME);
-    const [resetPwdAct, { data, loading }] = useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(resetPassword);
-    const onFinish = useCallback((v) => {
-        if (!meData?.me?.id) {
-            return;
-        }
-        resetPwdAct({
-            variables: {
-                password: v.password,
-                id: meData.me.id,
-            }
-        });
-    }, [meData?.me?.id]);
-    useEffect(() => {
-        form.resetFields();
-    }, [p.show]);
-    useEffect(() => {
-        if (data) {
-            message.success("reset password");
-            message.loading("relogin ...", 2000)
-            token.clear();
-            p.onClose();
-            setTimeout(() => {
-                location.reload();    
-            }, 2000);
-        }
-    }, [data, p.onClose]);
-    const prefix = <LockOutlined className="site-form-item-icon" />;
-    return <Modal width={400}
-        visible={p.show} onOk={() => form.submit()}
-        onCancel={() => p.onClose()}
-        okButtonProps={{ loading }} title="Reset Password">
-        <Form form={form}
-            onFinish={onFinish}
-            wrapperCol={{ span: 16 }} labelCol={{ span: 8 }}>
-            <Form.Item label="New Password" name="password" required={false} rules={[{ required: true, type: "string", min: 4, max: 8 }]}>
-                <Input type="password" prefix={prefix} />
-            </Form.Item>
-            <Form.Item label="Comfirm" name="comfirm" required={false}
-                rules={[{
-                    required: true,
-                    message: 'Please confirm your password!',
-                },
-                ({ getFieldValue }) => ({
-                    validator(_, value) {
-                        if (!value || getFieldValue('password') === value) {
-                            return Promise.resolve();
-                        }
-                        return Promise.reject(new Error('The two passwords that you entered do not match!'));
-                    },
-                }),
-                ]}
-            ><Input type="password" prefix={prefix} /></Form.Item>
-        </Form>
-    </Modal>;
-}
 
 export default function ProfilePage() {
     return <ApolloProvider client={client}>
