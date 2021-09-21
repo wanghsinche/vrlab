@@ -1,5 +1,8 @@
-import { Table, Tag, Space } from 'antd';
-import ContentLayout from '@/components/contentlayout';
+import { Table, Tag, Space, Button } from 'antd';
+import { ContentLayout, Toolbar } from '@/components/contentlayout';
+import { ApolloProvider } from '@apollo/client';
+import { client } from '@/utils/graphql';
+import { Link } from 'umi';
 
 const columns = [
     {
@@ -41,7 +44,7 @@ const columns = [
     {
         title: 'Action',
         key: 'action',
-        render: (_:string, record: any) => (
+        render: (_: string, record: any) => (
             <Space size="middle">
                 <a>Invite {record.name}</a>
                 <a>Delete</a>
@@ -74,8 +77,17 @@ const data = [
     },
 ];
 
-export default function StudentPage() { 
-    return <ContentLayout title="Student">
-        <Table columns={columns} dataSource={data} /> 
+const Student = () => {
+    return <ContentLayout title="User Manage">
+        <Toolbar>
+            <Link to="/manage/student/adduser"><Button type="primary">Add Users</Button></Link>
+        </Toolbar>
+        <Table columns={columns} dataSource={data} />
     </ContentLayout>;
+}
+
+export default function StudentPage() {
+    return <ApolloProvider client={client}>
+        <Student />
+    </ApolloProvider>;
 };

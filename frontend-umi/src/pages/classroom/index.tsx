@@ -1,5 +1,5 @@
 import { Table, Tag, Space } from 'antd';
-import ContentLayout from '@/components/contentlayout';
+import {ContentLayout} from '@/components/contentlayout';
 
 const columns = [
     {
@@ -73,7 +73,7 @@ const data = [
 ];
 
 export default function ClassPage() { 
-    return <ContentLayout title="Classroom">
+    return <ContentLayout title="Class Manage">
         <Table columns={columns} dataSource={data} /> 
     </ContentLayout>;
 };

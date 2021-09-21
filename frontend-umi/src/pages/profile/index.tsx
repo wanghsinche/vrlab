@@ -1,6 +1,6 @@
 import { Descriptions, Tag, Form, Button, Input, Select, message, Popconfirm } from 'antd';
 import { FormItemProps } from 'antd/es/form/FormItem';
-import ContentLayout from '@/components/contentlayout';
+import { ContentLayout } from '@/components/contentlayout';
 import { ApolloProvider, useMutation, useQuery } from '@apollo/client';
 import { client } from '@/utils/graphql';
 import { ME, PROFILE, CLASSES, updateProfile } from '@/utils/schema';
@@ -87,14 +87,14 @@ const Profile = () => {
 
         <Descriptions.Item label="Action" span={2}>
             <Button.Group>
-                {editing && <Popconfirm title="Are you sure?" onConfirm={()=>form.submit()}><Button htmlType="submit" type="primary" loading={loading}>Save</Button></Popconfirm>}
+                {editing && <Popconfirm title="Are you sure?" onConfirm={() => form.submit()}><Button htmlType="submit" type="primary" loading={loading}>Save</Button></Popconfirm>}
                 {editing && <Button onClick={() => setEditing(false)}>Cancel</Button>}
                 {!editing && <Button type="primary" onClick={() => setEditing(true)}>Update Profile</Button>}
             </Button.Group>
         </Descriptions.Item>
     </>;
 
-    const onResetClose = useCallback(()=>{
+    const onResetClose = useCallback(() => {
         setReseting(false);
     }, []);
 

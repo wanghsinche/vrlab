@@ -5,7 +5,7 @@ import { client, serverURL } from '@/utils/graphql';
 import { LIST_COURSES } from '@/utils/schema';
 import { ListCoursesQuery } from '@/generated/graphql';
 import { Link } from 'umi';
-import ContentLayout from '@/components/contentlayout';
+import {ContentLayout} from '@/components/contentlayout';
 
 const Course: React.FC = () => {
     const { data } = useQuery<ListCoursesQuery>(LIST_COURSES);

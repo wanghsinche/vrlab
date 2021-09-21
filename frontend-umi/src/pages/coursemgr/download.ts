@@ -2,7 +2,7 @@ import { serverURL } from "@/utils/graphql"
 import token from '@/utils/token';
 import { message } from 'antd';
 export const downloadFile = (id:string)=>{
-    message.loading('start downloading...', 10);
+    message.loading('start downloading...', 3);
     fetch(serverURL + '/courses/export/' + id, {
         headers: {
             Authorization: `Bearer ${token.val}`
