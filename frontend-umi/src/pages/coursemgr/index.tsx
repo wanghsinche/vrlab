@@ -1,71 +1,61 @@
 import { Table, Tag, Space } from 'antd';
 import ContentLayout from '@/components/contentlayout';
+import { ApolloProvider, useQuery } from '@apollo/client';
+import { client, serverURL } from '@/utils/graphql';
+import { ListCoursesQuery } from '@/generated/graphql';
+import { LIST_COURSES } from '@/utils/schema';
+import { downloadFile } from './download';
 
 const columns = [
     {
         title: 'id',
-        dataIndex: 'key',
+        dataIndex: 'id',
         key: 'id',
-        render: (text: string) => <a>{text}</a>,
     },
     {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        render: (text: string) => <a>{text}</a>,
     },
     {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: (tags: string[]) => (
-            <>
-                {tags.map(tag => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
+        title: 'Cover',
+        dataIndex: 'cover',
+        key: 'cover',
+        render: (v:any)=><div style={{textAlign:'left'}}>
+            <img src={serverURL + v?.url} width={50}/>
+        </div>
+    },
+    {
+        title: 'Status',
+        dataIndex: 'available',
+        key: 'available',
+        render: (v:boolean)=>v?<Tag color="green">进行中</Tag> : <Tag color="volcano">已停课</Tag>
     },
     {
         title: 'Action',
-        key: 'action',
-        render: (_:string, record: any) => (
+        key: 'id',
+        dataIndex: 'id',
+        render: (v:string, record: any) => (
             <Space size="middle">
-                <a>View</a>
-                <a>导出成绩</a>
+                <a>Edit</a>
+                <a onClick={()=>downloadFile(v)}>导出成绩</a>
             </Space>
         ),
     },
 ];
 
-const data = [
-    {
-        key: '1',
-        name: 'VR课堂',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'ＵＮＩＴＹ制作',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'ＡＲ考试',
-        tags: ['cool', 'teacher'],
-    },
-];
+const CourseMgr = ()=>{
+    const { data: courseData, loading } = useQuery<ListCoursesQuery>(LIST_COURSES);
+    
+    const data: any = courseData?.courses;
+
+    return <ContentLayout title="Course Manage">
+        <Table columns={columns} dataSource={data} loading={loading}/> 
+    </ContentLayout>;
+};
 
 export default function CourseMgrPage() { 
-    return <ContentLayout title="Course Manage">
-        <Table columns={columns} dataSource={data} /> 
-    </ContentLayout>;
+    return <ApolloProvider client={client}>
+        <CourseMgr />
+    </ApolloProvider>;
 };

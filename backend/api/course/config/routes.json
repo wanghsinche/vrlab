@@ -18,6 +18,14 @@
     },
     {
       "method": "GET",
+      "path": "/courses/export/:id",
+      "handler": "course.export",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/courses/:id",
       "handler": "course.findOne",
       "config": {

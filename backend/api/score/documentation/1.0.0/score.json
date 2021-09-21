@@ -582,7 +582,8 @@
           },
           "course": {
             "required": [
-              "id"
+              "id",
+              "available"
             ],
             "properties": {
               "id": {
@@ -599,6 +600,9 @@
               },
               "cover": {
                 "type": "string"
+              },
+              "available": {
+                "type": "boolean"
               },
               "published_at": {
                 "type": "string"

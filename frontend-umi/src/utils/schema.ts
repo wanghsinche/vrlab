@@ -27,7 +27,7 @@ query listCourses{
         id, 
         name, description, cover{
             url
-        }
+        }, available
     }
     coursesConnection{
         aggregate{
