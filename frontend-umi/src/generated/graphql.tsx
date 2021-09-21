@@ -2158,3 +2158,10 @@ export type ResetPasswordMutationVariables = Exact<{
 
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', updateUser?: Maybe<{ __typename?: 'updateUserPayload', user?: Maybe<{ __typename?: 'UsersPermissionsUser', id: string }> }> };
+
+export type ListUsersQueryVariables = Exact<{
+  classroom?: Maybe<Scalars['ID']>;
+}>;
+
+
+export type ListUsersQuery = { __typename?: 'Query', users?: Maybe<Array<Maybe<{ __typename?: 'UsersPermissionsUser', realid?: Maybe<string>, realname: string, email: string, username: string, role?: Maybe<{ __typename?: 'UsersPermissionsRole', name: string }>, class?: Maybe<{ __typename?: 'Class', id: string, name?: Maybe<string> }> }>>> };

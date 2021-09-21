@@ -3,7 +3,7 @@ import { ApolloProvider, useQuery } from "@apollo/client";
 import { client } from '@/utils/graphql';
 import { ME } from '@/utils/schema';
 import { Spin } from 'antd';
-import ContentLayout  from '@/components/contentlayout';
+import { ContentLayout }  from '@/components/contentlayout';
 import { Typography, Divider } from 'antd';
 
 const { Title, Paragraph, Text, Link } = Typography;

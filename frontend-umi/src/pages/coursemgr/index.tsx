@@ -1,5 +1,5 @@
-import { Table, Tag, Space } from 'antd';
-import { ContentLayout } from '@/components/contentlayout';
+import { Table, Tag, Space, Button } from 'antd';
+import { ContentLayout, Toolbar } from '@/components/contentlayout';
 import { ApolloProvider, useQuery } from '@apollo/client';
 import { client, serverURL } from '@/utils/graphql';
 import { ListCoursesQuery } from '@/generated/graphql';
@@ -52,6 +52,9 @@ const CourseMgr = () => {
     const data: any = courseData?.courses;
 
     return <ContentLayout title="Course Manage">
+        <Toolbar >
+            <Button type="primary">添加课程</Button>
+        </Toolbar>
         <Table columns={columns} dataSource={data} loading={loading} />
     </ContentLayout>;
 };

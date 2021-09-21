@@ -143,3 +143,16 @@ mutation resetPassword($password:String!, $id: ID! ){
   }
 }
 `;
+
+export const listUsers = gql`
+query listUsers($classroom:ID="3"){
+  users(where:{class_eq:$classroom}){
+    role{
+      name
+    }, class{
+      id, name
+    },
+    realid, realname, email, username
+  }
+}
+`;

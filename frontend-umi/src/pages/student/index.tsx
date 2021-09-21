@@ -1,88 +1,76 @@
-import { Table, Tag, Space, Button } from 'antd';
+import { Table, Tag, Select, Button, Input, Space } from 'antd';
 import { ContentLayout, Toolbar } from '@/components/contentlayout';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider, useQuery } from '@apollo/client';
 import { client } from '@/utils/graphql';
 import { Link } from 'umi';
+import { CLASSES, listUsers } from '@/utils/schema';
+import { ClassroomQuery, ListCoursesQueryVariables, ListUsersQuery, ListUsersQueryVariables } from '@/generated/graphql';
+import { useEffect, useState } from 'react';
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        render: (text: string) => <a>{text}</a>,
+        title: 'username',
+        dataIndex: 'username',
+        key: 'username',
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: '姓名',
+        dataIndex: 'realname',
+        key: 'realname',
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
+        title: '学号',
+        dataIndex: 'realid',
+        key: 'realid',
     },
     {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: (tags: string[]) => (
-            <>
-                {tags.map(tag => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
+        title: '班级',
+        dataIndex: 'class',
+        key: 'class',
+        render: (v: any) => <Tag>{v?.name}</Tag>
+    },
+    {
+        title: 'role',
+        key: 'role',
+        dataIndex: 'role',
+        render: (v: any) => <Tag color="blue" >
+            {v.name}
+        </Tag>,
     },
     {
         title: 'Action',
         key: 'action',
-        render: (_: string, record: any) => (
-            <Space size="middle">
-                <a>Invite {record.name}</a>
-                <a>Delete</a>
-            </Space>
+        render: (_: string) => (
+            <a>Edit</a>
         ),
     },
 ];
 
-const data = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sidney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
-];
 
 const Student = () => {
+    const [currentClass, setClass] = useState('3');
+    const { data, loading, refetch } = useQuery<ListUsersQuery, ListUsersQueryVariables>(listUsers, {
+        variables: {
+            classroom: currentClass
+        }
+    });
+    const { data: classData, loading: classLoading } = useQuery<ClassroomQuery>(CLASSES);
+    const addon = <Space>
+        <Input.Search placeholder="search by name, email, student ID" />
+        <Select value={currentClass} onChange={s => setClass(s)} options={classData?.classes?.map(el => ({
+            label: el!.name!, value: el!.id!
+        }))} />
+    </Space>;
+
+    useEffect(()=>{
+        refetch();
+    }, [currentClass]);
+
     return <ContentLayout title="User Manage">
-        <Toolbar>
+        <Toolbar addon={addon}>
             <Link to="/manage/student/adduser"><Button type="primary">Add Users</Button></Link>
         </Toolbar>
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={data?.users as any} loading={loading || classLoading} />
     </ContentLayout>;
 }
 
