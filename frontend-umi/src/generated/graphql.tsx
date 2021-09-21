@@ -2123,4 +2123,28 @@ export type ProfileQueryVariables = Exact<{
 }>;
 
 
-export type ProfileQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'UsersPermissionsUser', realid?: Maybe<string>, realname: string, class?: Maybe<{ __typename?: 'Class', name?: Maybe<string> }> }> };
+export type ProfileQuery = { __typename?: 'Query', user?: Maybe<{ __typename?: 'UsersPermissionsUser', realid?: Maybe<string>, realname: string, email: string, username: string, class?: Maybe<{ __typename?: 'Class', name?: Maybe<string>, id: string }>, role?: Maybe<{ __typename?: 'UsersPermissionsRole', name: string }> }> };
+
+export type ClassroomQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ClassroomQuery = { __typename?: 'Query', classes?: Maybe<Array<Maybe<{ __typename?: 'Class', id: string, name?: Maybe<string> }>>> };
+
+export type UpdateProfileMutationVariables = Exact<{
+  realname?: Maybe<Scalars['String']>;
+  realid?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  class?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
+}>;
+
+
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateUser?: Maybe<{ __typename?: 'updateUserPayload', user?: Maybe<{ __typename?: 'UsersPermissionsUser', email: string, username: string, realid?: Maybe<string>, realname: string, class?: Maybe<{ __typename?: 'Class', name?: Maybe<string>, id: string }> }> }> };
+
+export type ResetPasswordMutationVariables = Exact<{
+  password: Scalars['String'];
+  id: Scalars['ID'];
+}>;
+
+
+export type ResetPasswordMutation = { __typename?: 'Mutation', updateUser?: Maybe<{ __typename?: 'updateUserPayload', user?: Maybe<{ __typename?: 'UsersPermissionsUser', id: string }> }> };

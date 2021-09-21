@@ -97,9 +97,49 @@ export const PROFILE = gql`
 query profile($id:ID!){
   user(id:$id){
     realid, realname,class{
+      name, id
+    }, email, username, role {
       name
     }
   }
 }
+`;
 
+export const CLASSES = gql`
+query classroom{
+  classes{
+    id, name
+  }
+}
+`;
+
+export const updateProfile = gql`
+mutation updateProfile($realname:String, $realid:String, $email:String, $class:ID, $id: ID!){
+  updateUser(input:{
+    data:{
+      realname:$realname,realid:$realid, email:$email,class:$class
+    },
+    where:{
+      id: $id
+    }
+  }){
+    user{
+      email, username, class{
+        name, id
+      }, realid, realname
+    }
+  }
+}
+`;
+
+export const resetPassword = gql`
+mutation resetPassword($password:String!, $id: ID! ){
+  updateUser(input:{
+    data:{password:$password},where:{id:$id}
+  }){
+    user{
+      id
+    }
+  }
+}
 `;
