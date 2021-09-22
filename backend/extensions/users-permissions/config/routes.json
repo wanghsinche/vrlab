@@ -1,0 +1,18 @@
+{
+    "routes":[
+        {
+            "method": "POST",
+            "path": "/users/import",
+            "handler": "User.import",
+            "config": {
+                "policies": [],
+                "prefix": "",
+                "description": "Batch import users",
+                "tag": {
+                  "plugin": "users-permissions",
+                  "name": "User"
+                }
+            }
+        }
+    ]
+}
