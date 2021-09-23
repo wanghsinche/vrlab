@@ -604,6 +604,9 @@
               "available": {
                 "type": "boolean"
               },
+              "isTemplate": {
+                "type": "boolean"
+              },
               "published_at": {
                 "type": "string"
               },

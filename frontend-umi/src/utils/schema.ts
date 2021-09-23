@@ -179,3 +179,13 @@ mutation blockUser($id:ID!){
   }
 }
 `;
+
+export const getTemplateCourses = gql`
+query getTemplateCourse{
+  courses(where:{
+    isTemplate_eq: true
+  }){
+    id, name, cover{url}, description, 
+  }
+}
+`;

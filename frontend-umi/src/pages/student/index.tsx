@@ -43,7 +43,7 @@ const columns = [
         key: 'id',
         render: (id: string) => (
             <Space>
-                <Link to={"/manage/student/" + id}>Edit</Link>
+                <Link to={"/manage/student/" + id}>Detail</Link>
             </Space>
         ),
     },
@@ -80,7 +80,7 @@ const Student = () => {
 
     return <ContentLayout title="User Manage">
         <Toolbar addon={addon}>
-            <Link to="/manage/student/adduser"><Button type="primary">Add Users</Button></Link>
+            <Link to="/manage/student/add"><Button type="primary">Add Users</Button></Link>
         </Toolbar>
         <Table rowKey="username" columns={columns} dataSource={finalData as any} loading={loading || classLoading} />
     </ContentLayout>;

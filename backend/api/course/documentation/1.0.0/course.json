@@ -671,6 +671,10 @@
             "type": "boolean",
             "default": true
           },
+          "isTemplate": {
+            "type": "boolean",
+            "default": false
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -694,6 +698,10 @@
           "available": {
             "type": "boolean",
             "default": true
+          },
+          "isTemplate": {
+            "type": "boolean",
+            "default": false
           },
           "published_at": {
             "type": "string",

@@ -37,6 +37,10 @@
       "type": "boolean",
       "default": true,
       "required": true
+    },
+    "isTemplate": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

@@ -53,7 +53,7 @@ const CourseMgr = () => {
 
     return <ContentLayout title="Course Manage">
         <Toolbar >
-            <Button type="primary">添加课程</Button>
+            <Link to="/manage/coursemgr/add"><Button type="primary">添加课程</Button></Link>
         </Toolbar>
         <Table columns={columns} dataSource={data} loading={loading} />
     </ContentLayout>;
