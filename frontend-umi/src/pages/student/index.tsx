@@ -5,7 +5,7 @@ import { client } from '@/utils/graphql';
 import { Link } from 'umi';
 import { CLASSES, listUsers } from '@/utils/schema';
 import { ClassroomQuery, ListCoursesQueryVariables, ListUsersQuery, ListUsersQueryVariables } from '@/generated/graphql';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const columns = [
     {
@@ -39,9 +39,12 @@ const columns = [
     },
     {
         title: 'Action',
-        key: 'action',
-        render: (_: string) => (
-            <a>Edit</a>
+        dataIndex: 'id',
+        key: 'id',
+        render: (id: string) => (
+            <Space>
+                <Link to={"/manage/student/" + id}>Edit</Link>
+            </Space>
         ),
     },
 ];
@@ -54,15 +57,24 @@ const Student = () => {
             classroom: currentClass
         }
     });
+    const [filter, setFilter] = useState('');
+    const finalData = useMemo(()=>filter?data?.users?.filter(el=>(''+el?.realname+el?.realid+el?.username).includes(filter)):data?.users, [data, filter]);
+
     const { data: classData, loading: classLoading } = useQuery<ClassroomQuery>(CLASSES);
     const addon = <Space>
-        <Input.Search placeholder="search by name, email, student ID" />
-        <Select value={currentClass} onChange={s => setClass(s)} options={classData?.classes?.map(el => ({
-            label: el!.name!, value: el!.id!
-        }))} />
+        <Input.Search placeholder="search by name, email, student ID" onSearch={(s)=>setFilter(s)} allowClear />
+        <Select value={currentClass}
+            style={{minWidth: 100}}
+            showSearch
+            filterOption={(input, option) =>
+                (option?.label as string).toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            onChange={s => setClass(s)} options={classData?.classes?.map(el => ({
+                label: el!.name!, value: el!.id!
+            }))} />
     </Space>;
 
-    useEffect(()=>{
+    useEffect(() => {
         refetch();
     }, [currentClass]);
 
@@ -70,7 +82,7 @@ const Student = () => {
         <Toolbar addon={addon}>
             <Link to="/manage/student/adduser"><Button type="primary">Add Users</Button></Link>
         </Toolbar>
-        <Table columns={columns} dataSource={data?.users as any} loading={loading || classLoading} />
+        <Table rowKey="username" columns={columns} dataSource={finalData as any} loading={loading || classLoading} />
     </ContentLayout>;
 }
 

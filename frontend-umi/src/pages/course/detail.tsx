@@ -78,8 +78,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
     }, [resUpdateScore.data, resCreateScore.data, resUpdateScore.error, resCreateScore.error]);
 
     const contentDom = <Typography>
-        <Title>{data?.course?.name}</Title>
-        <Toolbar >
+        <Toolbar addon={data?.course?.name}>
         <Button.Group>
             <Button onClick={giveScore} type="primary" loading={learning === 'learning'} disabled={learning === 'done'}>Start</Button>
             <Button onClick={finishLearning} disabled={learning !== 'done'}>Finish</Button>

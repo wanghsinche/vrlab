@@ -77,7 +77,7 @@ module.exports = {
                 const user = {
                     username, email, realid, realname,
                     confirmed: true,
-                    class: "3",
+                    class: "3", // class "3" is the default unassigned class
                     password: username,
                     role
                 };

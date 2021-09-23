@@ -1,15 +1,17 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {ContentLayout, Toolbar} from '@/components/contentlayout';
 import { PageHeader, Form, Input, Button, message, Popconfirm } from 'antd';
 import { history, Link } from 'umi';
-import { ApolloProvider } from '@apollo/client';
+import { ApolloProvider, useMutation } from '@apollo/client';
 import { client } from '@/utils/graphql';
+import { importUsers } from '@/utils/schema';
+import { ImportUsersInput, ImportUsersMutationVariables } from '@/generated/graphql';
 
 function convert(value:string){
     const lines = value.split(';').map(el=>el.trim()).filter(el=>!!el);
     return lines.map(el=>{
         const [code, name, email] = el.split(',');
-        return {code, name, email};
+        return {realname:name, username:code, realid:code, email};
     })
 }
 
@@ -20,9 +22,11 @@ function validator(_:any, value:string) {
     try {
         const lines = value.split(';').map(el=>el.trim()).filter(el=>!!el);
         if (value.split('\n').length > lines.length ){
-            console.log('sjfjasdf');
             return Promise.reject(new Error('wrong format'));
         };
+        if (lines.length > 50){
+            return Promise.reject(new Error('don\'t excess 50 lines'));
+        }
         const res = lines.every(el=>{
             const [code, name, email] = el.split(',');
             return code && name && email;
@@ -38,16 +42,28 @@ function validator(_:any, value:string) {
 
 
 const Add = ()=>{
+    const [importUsersAct, { data, loading }] = useMutation<ImportUsersInput, ImportUsersMutationVariables>(importUsers);
     const [form] = Form.useForm();
     const onFinish = useCallback((v)=>{
-        console.log(convert(v.users));
+        importUsersAct({
+            variables: {
+                data: convert(v.users)
+            }
+        });
     }, []);
+    useEffect(()=>{
+        if (!data){
+            return;
+        }
+        message.success("import successfully");
+        form.resetFields();
+    }, [data]);
     return <ContentLayout >
         <PageHeader onBack={history.goBack} className="site-page-header" title="Back" />
         <Toolbar >
             <Button.Group>
                 <Popconfirm title="请确认数据无误" onConfirm={()=>form.submit()}>
-                    <Button type="primary">Save</Button>
+                    <Button type="primary" loading={loading}>Save</Button>
                 </Popconfirm>
                 <Link to="/manage/student"><Button>Cancel</Button></Link>
             </Button.Group>
@@ -55,7 +71,7 @@ const Add = ()=>{
         <Form layout="vertical" form={form} onFinish={onFinish}>
             <Form.Item label="批量录入用户" name="users" rules={[{required: true,}, {validator}]}>
                 <Input.TextArea cols={10} rows={10} placeholder={`
-一个学生数据占一行，数据段使用逗号分隔，每行以分号结尾。
+一个学生数据占一行，数据段使用逗号分隔，每行以分号结尾，单次最多录入50行。
 注意区分中英文符号，注意去除末尾空行。
 按照　学号,姓名,邮箱;　格式录入：
 201010,艾安安,aa.ai@edu.cn;

@@ -100,7 +100,7 @@ query profile($id:ID!){
       name, id
     }, email, username, role {
       name
-    }
+    }, id
   }
 }
 `;
@@ -152,7 +152,30 @@ query listUsers($classroom:ID="3"){
     }, class{
       id, name
     },
-    realid, realname, email, username
+    realid, realname, email, username, id
+  }
+}
+`;
+
+export const importUsers = gql`
+mutation importUsers($data: [ImportUsers]) {
+  importUsers(input:{
+    data:$data
+  }){
+		users{
+      id
+    }
+  }
+}
+`;
+
+export const blockUser = gql`
+mutation blockUser($id:ID!){
+  updateUser(input:{
+    where:{id:$id},
+    data:{blocked:true}
+  }){
+    user{id}
   }
 }
 `;
