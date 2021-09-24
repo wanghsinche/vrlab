@@ -53,6 +53,7 @@ const Add = () => {
             return;
         }
         addCourseAction({variables:{
+            ...temp,
             ...v,
             isTemplate: false,
             cover: temp.cover?.id

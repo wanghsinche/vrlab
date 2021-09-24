@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Space } from 'antd';
+import { Card } from 'antd';
 import { ApolloProvider, useQuery } from '@apollo/client';
 import { client, serverURL } from '@/utils/graphql';
 import { LIST_COURSES } from '@/utils/schema';
@@ -8,18 +8,23 @@ import { Link } from 'umi';
 import {ContentLayout} from '@/components/contentlayout';
 
 const Course: React.FC = () => {
-    const { data } = useQuery<ListCoursesQuery>(LIST_COURSES);
+    const { data } = useQuery<ListCoursesQuery>(LIST_COURSES, {
+        fetchPolicy:"no-cache"
+    });
 
     const items = data?.courses!.map(el => (
-        <Card key={el?.id} title={el?.name} extra={<Link to={`/course/${el?.id}`}>View Course</Link>} style={{ width: 300, height: 360 }} cover={<img src={serverURL + el?.cover?.url} width="300" height="160" />}>
-            <p>Card content</p>
-            <p>{el?.description}</p>
+        <Card  key={el?.id} title={el?.name} 
+        extra={<Link to={`/course/${el?.id}`}>View</Link>} 
+        style={{ width: 200,  margin:"10px 5px" }} 
+        cover={<img src={serverURL + el?.cover?.url} width="200" height="100" />}>
+            <div style={{fontSize: '.8em'}}>{'Course ID:'+el?.id}</div>
+            <div style={{fontSize: '.8em'}}>{el?.description}</div>
         </Card>));
 
     return <ContentLayout title="Course List">
-        <Space>
+        <div style={{display:"flex", justifyContent:"flex-start", width:"100%", flexWrap:"wrap"}}>
             {items}
-        </Space>
+        </div>
     </ContentLayout>;
 }
 

@@ -2124,7 +2124,7 @@ export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'UsersPe
 export type ListCoursesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ListCoursesQuery = { __typename?: 'Query', courses?: Maybe<Array<Maybe<{ __typename?: 'Course', id: string, name?: Maybe<string>, description?: Maybe<string>, available: boolean, cover?: Maybe<{ __typename?: 'UploadFile', url: string }> }>>>, coursesConnection?: Maybe<{ __typename?: 'CourseConnection', aggregate?: Maybe<{ __typename?: 'CourseAggregator', count?: Maybe<number> }> }> };
+export type ListCoursesQuery = { __typename?: 'Query', courses?: Maybe<Array<Maybe<{ __typename?: 'Course', id: string, name?: Maybe<string>, description?: Maybe<string>, available: boolean, isTemplate?: Maybe<boolean>, cover?: Maybe<{ __typename?: 'UploadFile', url: string }> }>>>, coursesConnection?: Maybe<{ __typename?: 'CourseConnection', aggregate?: Maybe<{ __typename?: 'CourseAggregator', count?: Maybe<number> }> }> };
 
 export type CourseDetailQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -2215,7 +2215,7 @@ export type BlockUserMutation = { __typename?: 'Mutation', updateUser?: Maybe<{ 
 export type GetTemplateCourseQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTemplateCourseQuery = { __typename?: 'Query', courses?: Maybe<Array<Maybe<{ __typename?: 'Course', id: string, name?: Maybe<string>, description?: Maybe<string>, cover?: Maybe<{ __typename?: 'UploadFile', url: string, id: string }> }>>> };
+export type GetTemplateCourseQuery = { __typename?: 'Query', courses?: Maybe<Array<Maybe<{ __typename?: 'Course', id: string, name?: Maybe<string>, description?: Maybe<string>, content?: Maybe<string>, cover?: Maybe<{ __typename?: 'UploadFile', url: string, id: string }> }>>> };
 
 export type AddCourseMutationVariables = Exact<{
   name: Scalars['String'];

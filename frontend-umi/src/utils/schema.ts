@@ -27,7 +27,7 @@ query listCourses{
         id, 
         name, description, cover{
             url
-        }, available
+        }, available, isTemplate
     }
     coursesConnection{
         aggregate{
@@ -187,7 +187,7 @@ query getTemplateCourse{
   courses(where:{
     isTemplate_eq: true
   }){
-    id, name, cover{url, id}, description, 
+    id, name, cover{url, id}, description, content
   }
 }
 `;
