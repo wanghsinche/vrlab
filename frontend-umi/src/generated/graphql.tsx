@@ -2131,7 +2131,7 @@ export type CourseDetailQueryVariables = Exact<{
 }>;
 
 
-export type CourseDetailQuery = { __typename?: 'Query', course?: Maybe<{ __typename?: 'Course', content?: Maybe<string>, name?: Maybe<string>, id: string, description?: Maybe<string> }> };
+export type CourseDetailQuery = { __typename?: 'Query', course?: Maybe<{ __typename?: 'Course', content?: Maybe<string>, name?: Maybe<string>, id: string, description?: Maybe<string>, isTemplate?: Maybe<boolean>, available: boolean, cover?: Maybe<{ __typename?: 'UploadFile', url: string, id: string }> }> };
 
 export type GetScoreQueryVariables = Exact<{
   student: Scalars['String'];
@@ -2215,4 +2215,25 @@ export type BlockUserMutation = { __typename?: 'Mutation', updateUser?: Maybe<{ 
 export type GetTemplateCourseQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTemplateCourseQuery = { __typename?: 'Query', courses?: Maybe<Array<Maybe<{ __typename?: 'Course', id: string, name?: Maybe<string>, description?: Maybe<string>, cover?: Maybe<{ __typename?: 'UploadFile', url: string }> }>>> };
+export type GetTemplateCourseQuery = { __typename?: 'Query', courses?: Maybe<Array<Maybe<{ __typename?: 'Course', id: string, name?: Maybe<string>, description?: Maybe<string>, cover?: Maybe<{ __typename?: 'UploadFile', url: string, id: string }> }>>> };
+
+export type AddCourseMutationVariables = Exact<{
+  name: Scalars['String'];
+  isTemplate?: Maybe<Scalars['Boolean']>;
+  description: Scalars['String'];
+  content?: Maybe<Scalars['String']>;
+  cover?: Maybe<Scalars['ID']>;
+}>;
+
+
+export type AddCourseMutation = { __typename?: 'Mutation', createCourse?: Maybe<{ __typename?: 'createCoursePayload', course?: Maybe<{ __typename?: 'Course', id: string }> }> };
+
+export type UpdateCourseMutationVariables = Exact<{
+  name?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  available?: Maybe<Scalars['Boolean']>;
+}>;
+
+
+export type UpdateCourseMutation = { __typename?: 'Mutation', updateCourse?: Maybe<{ __typename?: 'updateCoursePayload', course?: Maybe<{ __typename?: 'Course', id: string }> }> };

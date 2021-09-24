@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useReducer, useState } from 'react';
-import { Steps, Select, PageHeader, Button, Form, Divider, Input, Result } from 'antd';
+import React, { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
+import { Steps, Select, PageHeader, Button, Form, Divider, Input, Result, Spin } from 'antd';
 import { ContentLayout, Toolbar } from '@/components/contentlayout';
-import { history } from 'umi';
-import { ApolloProvider, useQuery } from '@apollo/client';
+import { history, Link } from 'umi';
+import { ApolloProvider, useMutation, useQuery } from '@apollo/client';
 import { client, serverURL } from '@/utils/graphql';
-import { getTemplateCourses } from '@/utils/schema';
-import { GetTemplateCourseQuery } from '@/generated/graphql';
+import { getTemplateCourses, addCourse } from '@/utils/schema';
+import { GetTemplateCourseQuery, AddCourseMutation, AddCourseMutationVariables } from '@/generated/graphql';
 
 const { Step } = Steps;
 
@@ -26,7 +26,7 @@ const Add = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [form] = Form.useForm();
     const { data: templateData, loading: templateLoading } = useQuery<GetTemplateCourseQuery>(getTemplateCourses);
-
+    const [ addCourseAction, { data: addCourseRes, loading: addCourseLoading, error: addCourseError}] = useMutation<AddCourseMutation, AddCourseMutationVariables>(addCourse)
     useEffect(() => {
         if (!templateData?.courses || state.current !== 1) {
             return;
@@ -44,6 +44,22 @@ const Add = () => {
         }
     }, [state.current, templateData?.courses]);
 
+    const submit = useCallback((v)=>{
+        if (!templateData?.courses){
+            return;
+        }
+        const temp = templateData.courses.find(el => el?.id === v.template);
+        if (!temp){
+            return;
+        }
+        addCourseAction({variables:{
+            ...v,
+            isTemplate: false,
+            cover: temp.cover?.id
+        }});
+        dispatch('next');
+    }, [templateData]);
+
     const stepDom = <Steps current={state.current} >
         <Step title="Select A Template" />
         <Step title="Modify the Detail" />
@@ -53,9 +69,19 @@ const Add = () => {
 
     const loading = templateLoading;
 
+    const disableStep = !!(addCourseError || addCourseLoading || addCourseRes);
+
     const btngp = <Button.Group>
-        <Button disabled={state.current < 1 || /*done*/ false} onClick={() => dispatch('prev')}>Prev</Button>
-        <Button type="primary" loading={loading} disabled={state.current >= 3} onClick={() => dispatch('next')}>{state.current > 1?'Submit':'Next'}</Button>
+        <Button disabled={state.current < 1 || disableStep} onClick={() => dispatch('prev')}>Prev</Button>
+        <Button type="primary" loading={loading} disabled={disableStep} 
+            onClick={() => {
+                if (state.current === 2) {
+                    form.submit();
+                }else{
+                    dispatch("next");
+                }
+            }}
+        >{state.current > 1?'Submit':'Next'}</Button>
     </Button.Group>;
 
     const templateSelector = <Form.Item label="Template" name="template">
@@ -74,17 +100,39 @@ const Add = () => {
         </Form.Item>
     </>;
 
-    const resultPage = <Result
-        status="success"
-        title="Successfully Purchased Cloud Server ECS!"
-        subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
-        extra={[
-            <Button type="primary" key="console">
-                Go Console
-      </Button>,
-            <Button key="buy">Buy Again</Button>,
-        ]}
-    />;
+    const resultPage = useMemo(()=>{
+        if (addCourseRes?.createCourse?.course){
+            return <Result
+                status="success"
+                title="Successfully Create a new Course!"
+                subTitle={`Course ID: ${addCourseRes?.createCourse?.course.id}`}
+                extra={[
+                    <Link to="/manage/coursemgr" key="list">
+                        <Button type="primary" >
+                            Go Course List
+                        </Button>
+                    </Link>,
+                ]}
+            />
+        } 
+        if (addCourseLoading){
+            return <Result 
+                status="info" 
+                title="Creating Course, please waiting"
+                subTitle={<Spin spinning/>}
+            />;
+        }
+        if (addCourseError) {
+            return <Result
+            status="error" 
+            title="Fail to Create"
+            subTitle={addCourseError.message}
+            extra={<Button type="primary" onClick={()=>dispatch("prev")}>
+                Check your info again
+            </Button>}
+        />;
+        }
+    }, [addCourseRes, addCourseLoading, addCourseError]);
 
     return <ContentLayout >
         <PageHeader onBack={history.goBack} className="site-page-header" title="Back" />
@@ -94,7 +142,9 @@ const Add = () => {
         <div style={{ background: '#fff', padding: '16px' }}>
             {stepDom}
             <Divider />
-            <Form form={form} style={{ width: 600, margin: '20px auto' }} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+            <Form form={form} 
+            onFinish={submit}
+            style={{ width: 600, margin: '20px auto' }} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
                 {state.current <= 2 && templateSelector}
                 {state.current <= 2 && state.current > 0 && detail}
                 {state.current === 3 && resultPage}

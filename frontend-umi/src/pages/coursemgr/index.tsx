@@ -39,7 +39,7 @@ const columns = [
         render: (v: string, record: any) => (
             <Space size="middle">
                 <Link to={'/course/' + v}>查看</Link>
-                <a>Edit</a>
+                <Link to={'/manage/coursemgr/' + v}>编辑</Link>
                 <a onClick={() => downloadFile(v)}>导出成绩</a>
             </Space>
         ),
@@ -55,7 +55,7 @@ const CourseMgr = () => {
         <Toolbar >
             <Link to="/manage/coursemgr/add"><Button type="primary">添加课程</Button></Link>
         </Toolbar>
-        <Table columns={columns} dataSource={data} loading={loading} />
+        <Table columns={columns} dataSource={data} loading={loading} rowKey="id"/>
     </ContentLayout>;
 };
 
