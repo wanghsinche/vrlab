@@ -41,6 +41,9 @@
     "isTemplate": {
       "type": "boolean",
       "default": false
+    },
+    "meta": {
+      "type": "json"
     }
   }
 }

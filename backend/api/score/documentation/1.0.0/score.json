@@ -607,6 +607,9 @@
               "isTemplate": {
                 "type": "boolean"
               },
+              "meta": {
+                "type": "object"
+              },
               "published_at": {
                 "type": "string"
               },

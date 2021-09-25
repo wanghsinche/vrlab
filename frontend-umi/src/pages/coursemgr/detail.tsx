@@ -69,6 +69,9 @@ const Detail = ({ id }: { id?: string }) => {
         <Form.Item label="Cover" name="cover" valuePropName="src">
             <img width="300" height="150" />
         </Form.Item>
+        <Form.Item label="Content" name="content" >
+            <Input.TextArea disabled/>
+        </Form.Item>
 
     </Form>
     </div>

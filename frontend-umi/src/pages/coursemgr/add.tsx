@@ -55,6 +55,7 @@ const Add = () => {
         addCourseAction({variables:{
             ...temp,
             ...v,
+            meta: temp.meta,
             isTemplate: false,
             cover: temp.cover?.id
         }});
@@ -98,6 +99,9 @@ const Add = () => {
         </Form.Item>
         <Form.Item label="Cover" name="cover" valuePropName="src">
             <img width="200" height="100" />
+        </Form.Item>
+        <Form.Item label="Content" name="content" >
+            <Input.TextArea disabled/>
         </Form.Item>
     </>;
 

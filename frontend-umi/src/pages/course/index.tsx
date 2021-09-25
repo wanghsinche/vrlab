@@ -12,7 +12,7 @@ const Course: React.FC = () => {
         fetchPolicy:"no-cache"
     });
 
-    const items = data?.courses!.map(el => (
+    const items = data?.courses?.filter(el=>el?.available)!.map(el => (
         <Card  key={el?.id} title={el?.name} 
         extra={<Link to={`/course/${el?.id}`}>View</Link>} 
         style={{ width: 200,  margin:"10px 5px" }} 

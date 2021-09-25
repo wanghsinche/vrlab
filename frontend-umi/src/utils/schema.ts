@@ -42,7 +42,7 @@ export const COURSE_DETAIL = gql`
         course(id:$id){
             content, name, id, description, cover{
               url, id
-            }, isTemplate, available
+            }, isTemplate, available, meta
         }
     }
 `;
@@ -187,17 +187,17 @@ query getTemplateCourse{
   courses(where:{
     isTemplate_eq: true
   }){
-    id, name, cover{url, id}, description, content
+    id, name, cover{url, id}, description, content, meta
   }
 }
 `;
 
 export const addCourse = gql`
-mutation addCourse($name:String!, $isTemplate:Boolean=false, $description:String!, $content: String, $cover:ID){
+mutation addCourse($name:String!, $isTemplate:Boolean=false, $description:String!, $content: String, $cover:ID, $meta:JSON!){
   createCourse(input:{
     data:{
       name:$name, isTemplate:$isTemplate,
-      description:$description,cover:$cover, content:$content
+      description:$description,cover:$cover, content:$content, meta:$meta
     }
   }){
     course{
@@ -225,3 +225,37 @@ mutation updateCourse($name:String, $description: String, $id:ID!, $available:Bo
   }
 }
 `
+
+export const listClass = gql`
+query listClass{
+  classes{
+    id, name, created_at
+  }
+}
+`;
+
+export const updateClass = gql`
+mutation updateClass($name:String!, $id:ID!){
+  updateClass(input:{
+    data:{name:$name},where:{id:$id}
+  }){
+    class{
+      id
+    }
+  }
+}
+`;
+
+export const createClass = gql`
+mutation createClass($name:String!){
+  createClass(input:{
+    data:{
+      name:$name
+    }
+  }){
+    class{
+      id
+    }
+  }
+}
+`;
