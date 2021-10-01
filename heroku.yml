@@ -1,8 +1,12 @@
 build:
   docker:
     web: web.dockerfile
-    be: backend.dockerfile
-    fe: frontend.dockerfile
+    worker: worker.dockerfile
   config:
     NODE_ENV: production
+run:
+  web:
+    image: web
+  worker:
+    image: worker
 

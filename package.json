@@ -7,7 +7,8 @@
     "develop:frontend": "wait-on http://localhost:1337/admin && yarn --cwd frontend-umi develop",
     "develop": "cross-env FORCE_COLOR=1 npm-run-all -l -p develop:*",
     "start:backend": "yarn --cwd backend start",
-    "start:frontend": "http-server frontend-umi/dist -p 8080"
+    "start:frontend": "http-server frontend-umi/dist -p 8080",
+    "start": "cross-env FORCE_COLOR=1 npm-run-all -l -p start:*"
   },
   "devDependencies": {
     "cross-env": "7.0.3",
