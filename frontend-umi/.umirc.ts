@@ -57,5 +57,8 @@ export default defineConfig({
   theme: {
     'layout-header-background': '#24292f',
     'layout-footer-background': '#fff',
+  },
+  define:{
+    SERVER_URL: process.env.SERVER_URL || 'http://localhost:1337'
   }
 });

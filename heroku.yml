@@ -1,5 +1,5 @@
 build:
   docker:
-    web: dockerfile
+    web: backend.dockerfile
   config:
     NODE_ENV: production

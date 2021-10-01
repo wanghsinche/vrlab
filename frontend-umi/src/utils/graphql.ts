@@ -4,7 +4,7 @@ import { onError } from "@apollo/client/link/error";
 import { message } from 'antd';
 import token from './token';
 
-export const serverURL = 'http://localhost:1337';
+export const serverURL = SERVER_URL;
 
 const httpLink = new HttpLink({
   uri: serverURL + "/graphql"

@@ -8,8 +8,6 @@ COPY package.json package.json
 RUN yarn install
 # backend
 COPY backend/ backend/
-# frontend
-COPY frontend-umi/ frontend-umi/
 RUN cd backend && yarn install && yarn build
 VOLUME [ "backend/data" ]
 EXPOSE 1337
