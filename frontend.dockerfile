@@ -9,7 +9,7 @@ COPY package.json package.json
 RUN yarn install
 # backend
 COPY frontend-umi/ frontend-umi/
-RUN cd frontend-umi && yarn install --production && yarn build
+RUN cd frontend-umi && yarn install && yarn build
 
 EXPOSE 8080
 CMD [ "yarn", "start:frontend" ]
