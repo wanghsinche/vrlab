@@ -1,4 +1,5 @@
-# umi project
+# VRLAB
+> a LMS learning manage system using strapi and umijs
 
 ## Getting Started
 
@@ -11,5 +12,5 @@ $ yarn
 Start the dev server,
 
 ```bash
-$ yarn start
+$ yarn develop
 ```
