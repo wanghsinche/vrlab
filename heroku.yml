@@ -1,6 +1,6 @@
 build:
   docker:
-    web: we.dockerfile
+    web: web.dockerfile
     be: backend.dockerfile
     fe: frontend.dockerfile
   config:
