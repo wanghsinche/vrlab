@@ -14,3 +14,9 @@ Start the dev server,
 ```bash
 $ yarn develop
 ```
+
+## heroku deploy
+```bash
+heroku stack:set container
+git push heroku master
+```
