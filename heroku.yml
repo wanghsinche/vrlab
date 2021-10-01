@@ -1,5 +1,8 @@
 build:
   docker:
-    web: backend.dockerfile
+    web: we.dockerfile
+    be: backend.dockerfile
+    fe: frontend.dockerfile
   config:
     NODE_ENV: production
+
