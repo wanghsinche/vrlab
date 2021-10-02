@@ -14,7 +14,8 @@ COPY package.json heroku.sh ./
 RUN yarn install
 
 ENV SERVER_URL=/api  \
-    URL=/api
+    URL=/api \
+    NODE_ENV=production
 
 # backend
 COPY backend/ backend/
