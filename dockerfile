@@ -12,11 +12,13 @@ WORKDIR /app
 # root
 COPY package.json heroku.sh ./
 RUN yarn install
+
+ENV SERVER_URL=/api  \
+    URL=/api
+
 # backend
 COPY backend/ backend/
 RUN cd backend && yarn install && yarn build
-
-ENV SERVER_URL=/api
 
 COPY frontend-umi/ frontend-umi/
 RUN cd frontend-umi && yarn install && yarn build
