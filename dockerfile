@@ -10,7 +10,7 @@ WORKDIR /app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 # root
-COPY package.json package.json
+COPY package.json heroku.sh ./
 RUN yarn install
 # backend
 COPY backend/ backend/
@@ -24,7 +24,6 @@ RUN cd frontend-umi && yarn install && yarn build
 
 VOLUME [ "/app/backend/data" ]
 
-COPY heroku.sh heroku.sh
 CMD [ "bash", "heroku.sh" ]
 # If you are building your code for production
 # RUN npm ci --only=production
