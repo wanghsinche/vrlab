@@ -1,4 +1,10 @@
-FROM node:14
+FROM nginx:latest
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Install Node & yarn
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs && npm install --global yarn
+
 WORKDIR /app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -16,9 +22,6 @@ RUN cd frontend-umi && yarn install && yarn build
 
 VOLUME [ "backend/data" ]
 
-EXPOSE 1337
-EXPOSE 8080
-
-CMD [ "yarn", "start" ]
+CMD [ "bash", "heroku.sh" ]
 # If you are building your code for production
 # RUN npm ci --only=production
