@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    iframe
+    <script>
+        console.log("iframe");
+
+        function postScore(payload){
+            console.log('[postScore]', payload);
+            if (window.parent) {
+                console.log("to post")
+                window.parent.postMessage(
+                    JSON.stringify({
+                        type: 'postScore',
+                        payload
+                    }),
+                    "*" 
+                );
+            }
+        }
+
+    </script>
+
+    <button onclick="postScore(JSON.stringify({
+        point:10, detail: {ididi:10}
+    }))">go</button>
+
+</body>
+</html>

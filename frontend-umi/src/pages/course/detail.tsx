@@ -77,6 +77,14 @@ const Detail: React.FC<{ id: string }> = (p) => {
         }
     }, [resUpdateScore.data, resCreateScore.data, resUpdateScore.error, resCreateScore.error]);
 
+    useEffect(()=>{
+        function h(event:any){
+            console.log("main", JSON.parse(event.data));
+        }
+        window.addEventListener("message", h, false);
+        return ()=>window.removeEventListener("message", h);
+    }, []);
+
     const contentDom = <Typography>
         <Toolbar addon={data?.course?.name}>
         <Button.Group>
@@ -94,6 +102,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
 
         <Divider />
         <Paragraph>
+            <iframe src="/test.html"/>
             <ReactMarkdown className="markdown">{data?.course?.content ? resolveUploadsURL(data?.course.content) : ''}</ReactMarkdown>
         </Paragraph>
     </Typography>;
