@@ -8,6 +8,7 @@ import { client } from './utils/graphql';
 import { getGlobal, ME } from './utils/schema';
 import { GetGlobalQuery, MeQuery } from '@/generated/graphql';
 import { history } from 'umi';
+import { Tag, Space } from 'antd';
 import Footer from '@/components/footer';
 export const layout = ({
   initialState,
@@ -19,12 +20,18 @@ export const layout = ({
     onPageChange: () => {
     },
     rightContentRender: ()=>{
-        return React.createElement('a', {
-            onClick: ()=>{
-              token.clear();
-              location.reload();
-            }
-        }, ['logout']);
+      const isTeacher = initialState?.me?.role?.name === 'Teacher';
+      return React.createElement(Space, null, [
+        React.createElement(Tag, {
+          color: isTeacher?'green':'blue'
+        }, [isTeacher? '教师版':'学生版']),
+        React.createElement('a', {
+          onClick: ()=>{
+            token.clear();
+            location.reload();
+          }
+        }, ['登出'])
+      ]);
     },
     footerRender: ()=>{
       return React.createElement(Footer);
