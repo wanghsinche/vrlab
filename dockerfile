@@ -3,7 +3,11 @@ FROM nginx:latest
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Install Node & yarn
-RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs && npm install --global yarn
+RUN sed -i 's#http://deb.debian.org#https://mirrors.cloud.tencent.com#g' /etc/apt/sources.list \
+&& apt-get clean && apt-get update \
+&& curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
+&& apt-get install -y nodejs && npm install --global yarn \
+&& yarn config set registry http://registry.npm.taobao.org 
 
 WORKDIR /app
 # Install app dependencies
@@ -22,7 +26,7 @@ COPY backend/ backend/
 RUN cd backend && yarn install && yarn build
 
 COPY frontend-umi/ frontend-umi/
-RUN cd frontend-umi && yarn install && yarn build
+RUN cd frontend-umi && yarn add @umijs/preset-react --dev && yarn install && yarn build
 
 
 VOLUME [ "/app/backend/data" ]
