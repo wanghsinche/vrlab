@@ -260,3 +260,33 @@ mutation createClass($name:String!){
   }
 }
 `;
+
+export const getHomePage = gql`
+query getHomePage{
+  homepage{
+    seo{
+      shareImage{
+    		url
+      },
+      metaTitle,
+      metaDescription,
+    },
+    hero{
+      title,
+      content
+    },
+    footer{
+      items
+    }
+  }
+}
+`;
+
+export const getGlobal = gql`
+query getGlobal{
+  global{
+    siteName,
+    
+  }
+}
+`;

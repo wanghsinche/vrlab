@@ -44,7 +44,7 @@ export default defineConfig({
     ]},
     { path: '/profile', component: '@/pages/profile', name: 'Profile', icon: 'ProfileOutlined', 
     },
-
+    { component: '@/pages/index'}
   ],
   fastRefresh: {},
   layout:{

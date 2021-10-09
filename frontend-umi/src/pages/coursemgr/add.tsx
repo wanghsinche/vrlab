@@ -143,7 +143,7 @@ const Add = () => {
     }, [addCourseRes, addCourseLoading, addCourseError]);
 
     return <ContentLayout >
-        <PageHeader onBack={history.goBack} className="site-page-header" title="Back" />
+        <PageHeader onBack={history.goBack} className="site-page-header" title="返回" />
         <Toolbar addon="添加新课程">
             {btngp}
         </Toolbar>

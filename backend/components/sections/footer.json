@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_sections_footers",
+  "info": {
+    "name": "footer",
+    "icon": "align-justify"
+  },
+  "options": {},
+  "attributes": {
+    "items": {
+      "type": "json"
+    }
+  }
+}

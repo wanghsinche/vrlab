@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
-import { Typography, Divider, PageHeader, Button, Progress, message, Empty, Descriptions, Tag } from 'antd';
+import { Typography, Divider, PageHeader, Button, Progress, Popconfirm ,message, Empty, Descriptions, Tag } from 'antd';
 import { ApolloProvider, useMutation, useQuery } from '@apollo/client';
 import { client } from '@/utils/graphql';
 import { COURSE_DETAIL, GETSCORE, ME, updateScore, createScore } from '@/utils/schema';
 import ReactMarkdown from 'react-markdown'
 import { resolveUploadsURL } from '@/utils/resolveurl';
-import { history } from 'umi';
+import { history, Prompt } from 'umi';
 import { ContentLayout, Toolbar } from '@/components/contentlayout';
 import { CourseDetailQuery, MeQuery, GetScoreQuery, UpdateScoreMutation, CreateScoreMutation, UpdateScoreMutationVariables, CreateScoreMutationVariables } from '@/generated/graphql';
 import moment from 'moment';
 import './detail.less';
+import { EnhancedIframe } from '@/components/enhancediframe';
 
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -56,6 +57,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
 
     const startLearning = useCallback(() => {
         setLearning('learning');
+        message.info("开始学习，请操作VR课程")
     }, []);
 
     const submitScore = useCallback((newScore: {point:number, detail:string}) => {
@@ -101,6 +103,9 @@ const Detail: React.FC<{ id: string }> = (p) => {
     }, [resUpdateScore.data, resCreateScore.data, resUpdateScore.error, resCreateScore.error]);
 
     useEffect(() => {
+        if (learning !== 'learning') {
+            return;
+        }
         function h(event: any) {
             console.log("main", JSON.parse(event.data));
             submitScore({
@@ -110,13 +115,15 @@ const Detail: React.FC<{ id: string }> = (p) => {
         }
         window.addEventListener("message", h, false);
         return () => window.removeEventListener("message", h);
-    }, [submitScore]);
+    }, [submitScore, learning]);
 
     const contentDom = <Typography>
         <Toolbar addon={<h3>{data?.course?.name}</h3>}>
             <Button.Group>
                 <Button onClick={startLearning} type="primary" disabled={learning !== 'idle' || !data?.course?.available} loading={learning === 'learning'}>开始学习</Button>
-                <Button onClick={finishLearning} disabled={learning === 'idle'}>结束学习</Button>
+                <Popconfirm onConfirm={finishLearning} title="确定停止？" disabled={learning === 'idle'}>
+                    <Button disabled={learning === 'idle'}>停止学习</Button>
+                </Popconfirm>
             </Button.Group>
         </Toolbar>
         <Descriptions style={{ background: '#fff' }} bordered>
@@ -128,17 +135,19 @@ const Detail: React.FC<{ id: string }> = (p) => {
             {score && <Descriptions.Item label="最新成绩"><Progress percent={Number(score?.point)} /></Descriptions.Item>}
         </Descriptions>
         <Divider />
-        <iframe src={data?.course?.vrlink || ''} width={400} height={300} allowFullScreen style={{ margin: 'auto', display: 'block', pointerEvents: learning !== 'learning' ? 'none' : 'initial', opacity: learning !== 'learning' ? 0.3 : 1 }} />
+        <EnhancedIframe src={data?.course?.vrlink || ''}  style={{ margin: 'auto', display: 'block', pointerEvents: learning !== 'learning' ? 'none' : 'initial', opacity: learning !== 'learning' ? 0.3: 1, width: '80%' } as any} ratio={3/4} />
         <Divider />
-        <Paragraph>
-            <ReactMarkdown className="markdown">{data?.course?.content ? resolveUploadsURL(data?.course.content) : ''}</ReactMarkdown>
-        </Paragraph>
+        <ReactMarkdown className="markdown">{data?.course?.content ? resolveUploadsURL(data?.course.content) : ''}</ReactMarkdown>
     </Typography>;
 
 
     return <ContentLayout>
-        <PageHeader onBack={history.goBack} className="site-page-header" title="Back" />
+        <PageHeader onBack={history.goBack} className="site-page-header" title="返回" />
         {data?.course ? contentDom : <Empty />}
+        <Prompt
+            when={learning === 'learning' }
+            message="正在学习，离开页面将丢失数据，确定？"
+        />
     </ContentLayout>;
 }
 

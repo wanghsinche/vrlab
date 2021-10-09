@@ -1,77 +1,25 @@
 import styles from './index.less';
 import { ApolloProvider, useQuery } from "@apollo/client";
 import { client } from '@/utils/graphql';
-import { ME } from '@/utils/schema';
-import { Spin } from 'antd';
+import { getHomePage, ME } from '@/utils/schema';
+import { Spin, Divider } from 'antd';
 import { ContentLayout }  from '@/components/contentlayout';
-import { Typography, Divider } from 'antd';
+import ReactMarkdown from 'react-markdown'
+import { GetHomePageQuery, Homepage } from '@/generated/graphql';
+import { resolveUploadsURL } from '@/utils/resolveurl';
 
-const { Title, Paragraph, Text, Link } = Typography;
-
-const blockContent = `AntV 是蚂蚁金服全新一代数据可视化解决方案，致力于提供一套简单方便、专业可靠、不限可能的数据可视化最佳实践。得益于丰富的业务场景和用户需求挑战，AntV 经历多年积累与不断打磨，已支撑整个阿里集团内外 20000+ 业务系统，通过了日均千万级 UV 产品的严苛考验。
-我们正在基础图表，图分析，图编辑，地理空间可视化，智能可视化等各个可视化的领域耕耘，欢迎同路人一起前行。`;
-
-const content = <Typography>
-  <Title>Introduction</Title>
-  <Paragraph>
-    In the process of internal desktop applications development, many different design specs and
-    implementations would be involved, which might cause designers and developers difficulties and
-    duplication and reduce the efficiency of development.
-    </Paragraph>
-  <Paragraph>
-    After massive project practice and summaries, Ant Design, a design language for background
-    applications, is refined by Ant UED Team, which aims to
-      <Text strong>
-      uniform the user interface specs for internal background projects, lower the unnecessary
-      cost of design differences and implementation and liberate the resources of design and
-      front-end development
-      </Text>.
-    </Paragraph>
-  <Title level={2}>Guidelines and Resources</Title>
-  <Paragraph>
-    We supply a series of design principles, practical patterns and high quality design resources
-      (<Text code>Sketch</Text> and <Text code>Axure</Text>), to help people create their product
-      prototypes beautifully and efficiently.
-    </Paragraph>
-
-  <Paragraph>
-    <ul>
-      <li>
-        <Link href="/docs/spec/proximity">Principles</Link>
-      </li>
-      <li>
-        <Link href="/docs/spec/overview">Patterns</Link>
-      </li>
-      <li>
-        <Link href="/docs/resources">Resource Download</Link>
-      </li>
-    </ul>
-  </Paragraph>
-
-  <Paragraph>
-    Press <Text keyboard>Esc</Text> to exit...
-    </Paragraph>
-
-  <Divider />
-
-  <Paragraph>
-    <blockquote>{blockContent}</blockquote>
-    <pre>{blockContent}</pre>
-  </Paragraph>
-
-  <Paragraph>
-    按<Text keyboard>Esc</Text>键退出阅读……
-    </Paragraph>
-</Typography>;
 
 const Index: React.FC = () => {
   const { loading, data } = useQuery(ME);
-
+  const { loading: homepageLoading, data: homepageData} = useQuery<GetHomePageQuery>(getHomePage);
+  console.log(homepageData)
+  const isLoading = homepageLoading || loading;
   return <ContentLayout>
-    <h1 >Wellcome!</h1>
-    {loading && <Spin spinning={loading} />}
-    {data && `${data.me.email}`}
-    {data && content}
+    <h1>{homepageData?.homepage?.hero?.title}</h1>
+    <div>欢迎你! {data && `${data.me.email}`}</div>
+    <Divider />
+    {isLoading  && <Spin spinning={isLoading} />}
+    <ReactMarkdown>{homepageData?.homepage?.hero?.content?resolveUploadsURL(homepageData?.homepage?.hero?.content):''}</ReactMarkdown>
   </ContentLayout>;
 }
 

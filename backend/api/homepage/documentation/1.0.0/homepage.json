@@ -417,6 +417,23 @@
               },
               "title": {
                 "type": "string"
+              },
+              "content": {
+                "type": "string"
+              }
+            }
+          },
+          "footer": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "items": {
+                "type": "object"
               }
             }
           }
@@ -525,6 +542,23 @@
               },
               "title": {
                 "type": "string"
+              },
+              "content": {
+                "type": "string"
+              }
+            }
+          },
+          "footer": {
+            "type": "object",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "items": {
+                "type": "object"
               }
             }
           },

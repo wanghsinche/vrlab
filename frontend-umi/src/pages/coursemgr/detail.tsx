@@ -46,7 +46,7 @@ const Detail = ({ id }: { id?: string }) => {
     }, [updateRes]);
 
     return <ContentLayout>
-    <PageHeader onBack={history.goBack} className="site-page-header" title="Back" />
+    <PageHeader onBack={history.goBack} className="site-page-header" title="返回" />
     <Toolbar>
         {btngp}
     </Toolbar>
