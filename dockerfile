@@ -26,7 +26,7 @@ COPY backend/ backend/
 RUN cd backend && yarn install && yarn build
 
 COPY frontend-umi/ frontend-umi/
-RUN cd frontend-umi && yarn add @umijs/preset-react --dev && yarn install && yarn build
+RUN cd frontend-umi && yarn add @umijs/preset-react --dev && yarn install && yarn build && rm -fr node_modules
 
 
 VOLUME [ "/app/backend/data" ]
