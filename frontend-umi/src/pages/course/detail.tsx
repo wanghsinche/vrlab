@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Typography, Divider, PageHeader, Button, Progress, message, Empty, Descriptions } from 'antd';
+import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { Typography, Divider, PageHeader, Button, Progress, message, Empty, Descriptions, Tag } from 'antd';
 import { ApolloProvider, useMutation, useQuery } from '@apollo/client';
 import { client } from '@/utils/graphql';
 import { COURSE_DETAIL, GETSCORE, ME, updateScore, createScore } from '@/utils/schema';
@@ -8,9 +8,36 @@ import { resolveUploadsURL } from '@/utils/resolveurl';
 import { history } from 'umi';
 import { ContentLayout, Toolbar } from '@/components/contentlayout';
 import { CourseDetailQuery, MeQuery, GetScoreQuery, UpdateScoreMutation, CreateScoreMutation, UpdateScoreMutationVariables, CreateScoreMutationVariables } from '@/generated/graphql';
+import moment from 'moment';
 import './detail.less';
 
 const { Title, Paragraph, Text, Link } = Typography;
+
+const initialState = { current: 0 };
+
+function reducer(state: typeof initialState, action: 'add') {
+    switch (action) {
+        case 'add':
+            return { current: state.current + 1 > 100 ? 0 : state.current + 1 };
+        default:
+            return state;
+    }
+}
+
+const Timer = () => {
+    const [time, dispatch] = useReducer(reducer, initialState);
+    const start = useRef(moment());
+    const timer = useRef<NodeJS.Timeout>();
+    const color = ['red', 'blue', 'yellow', 'green', 'orange'][time.current % 5];
+    useEffect(() => {
+        timer.current = setTimeout(function ii() {
+            dispatch('add');
+            timer.current = setTimeout(ii, 3000);
+        }, 3000);
+        return () => timer.current && clearTimeout(timer.current);
+    }, []);
+    return <Tag color={color} >{moment.duration(moment().diff(start.current)).minutes()}分钟</Tag>
+}
 
 const Detail: React.FC<{ id: string }> = (p) => {
     const { data } = useQuery<CourseDetailQuery>(COURSE_DETAIL, { variables: { id: p.id } });
@@ -19,57 +46,53 @@ const Detail: React.FC<{ id: string }> = (p) => {
         variables: { student: meData?.me?.id, course: p.id },
         skip: !meData,
     });
-
     const [opUpdateScore, resUpdateScore] = useMutation<UpdateScoreMutation, UpdateScoreMutationVariables>(updateScore);
     const [opCreateScore, resCreateScore] = useMutation<CreateScoreMutation, CreateScoreMutationVariables>(createScore);
-    const [learning, setLearning] = useState<'yet' | 'learning' | 'done'>('yet');
+    const [learning, setLearning] = useState<'idle' | 'learning'>('idle');
+
+    const timerTag = useMemo(() => learning !== 'learning' ? '--' : <Timer />, [p.id, learning]);
 
     const score = scoreData?.scores && scoreData?.scores[0];
 
-    const giveScore = useCallback(() => {
+    const startLearning = useCallback(() => {
+        setLearning('learning');
+    }, []);
+
+    const submitScore = useCallback((newScore: {point:number, detail:string}) => {
         if (!meData?.me?.id) {
             return;
         }
-        setLearning('learning');
         if (score) {
             const scoreid = score.id;
-            setTimeout(() => {
-                opUpdateScore({
-                    variables: {
-                        point: Math.ceil(100 * Math.random()),
-                        detail: JSON.stringify({ "process1": 50, "process2": 10 }),
-                        id: scoreid
-                    }
-                });
-            }, 3000);
+            opUpdateScore({
+                variables: {
+                    point: newScore.point, 
+                    detail: newScore.detail,
+                    id: scoreid
+                }
+            });
         } else {
             const meid = meData.me.id;
-            setTimeout(() => {
-                opCreateScore({
-                    variables: {
-                        point: Math.ceil(100 * Math.random()),
-                        detail: JSON.stringify({ "process1": 50, "process2": 10 }),
-                        course: p.id,
-                        student: meid
-                    }
-                });
-            }, 5000);
+            opCreateScore({
+                variables: {
+                    point: newScore.point, 
+                    detail: newScore.detail, 
+                    course: p.id,
+                    student: meid
+                }
+            });
         }
     }, [score, p.id, meData?.me?.id]);
 
     const finishLearning = useCallback(() => {
         refetchScore();
-        message.success("refresh the course, you can check and leave the course")
+        setLearning('idle');
     }, []);
 
     useEffect(() => {
-        if (resUpdateScore.data) {
-            message.success('update score! please click finish');
-            setLearning('done');
-        }
-        if (resCreateScore.data) {
-            message.success('create score! please click finish');
-            setLearning('done');
+        if (resUpdateScore.data || resCreateScore.data) {
+            message.success('完成课程!成绩已经更新 ');
+            finishLearning();
         }
 
         if (resUpdateScore.error || resCreateScore.error) {
@@ -77,32 +100,37 @@ const Detail: React.FC<{ id: string }> = (p) => {
         }
     }, [resUpdateScore.data, resCreateScore.data, resUpdateScore.error, resCreateScore.error]);
 
-    useEffect(()=>{
-        function h(event:any){
+    useEffect(() => {
+        function h(event: any) {
             console.log("main", JSON.parse(event.data));
+            submitScore({
+                point:Math.ceil(100 * Math.random()),
+                detail: JSON.stringify({ "process1": 50, "process2": 10 }),
+            });
         }
         window.addEventListener("message", h, false);
-        return ()=>window.removeEventListener("message", h);
-    }, []);
+        return () => window.removeEventListener("message", h);
+    }, [submitScore]);
 
     const contentDom = <Typography>
-        <Toolbar addon={data?.course?.name}>
-        <Button.Group>
-            <Button onClick={giveScore} type="primary" loading={learning === 'learning'} disabled={learning === 'done'}>Start</Button>
-            <Button onClick={finishLearning} disabled={learning !== 'done'}>Finish</Button>
-        </Button.Group>
+        <Toolbar addon={<h3>{data?.course?.name}</h3>}>
+            <Button.Group>
+                <Button onClick={startLearning} type="primary" disabled={learning !== 'idle' || !data?.course?.available} loading={learning === 'learning'}>开始学习</Button>
+                <Button onClick={finishLearning} disabled={learning === 'idle'}>结束学习</Button>
+            </Button.Group>
         </Toolbar>
-        <Descriptions style={{background:'#fff'}} bordered>
-        <Descriptions.Item label="Course id">{data?.course?.id}</Descriptions.Item>
-        <Descriptions.Item label="Student">{meData?.me?.username}</Descriptions.Item>
-        <Descriptions.Item label="Description">{data?.course?.description}</Descriptions.Item>
-        {score && <Descriptions.Item label="Last Score"><Progress percent={Number(score?.point)} /></Descriptions.Item>}
-
+        <Descriptions style={{ background: '#fff' }} bordered>
+            <Descriptions.Item label="课程 ID">{data?.course?.id}</Descriptions.Item>
+            <Descriptions.Item label="用户名">{meData?.me?.username}</Descriptions.Item>
+            <Descriptions.Item label="课程描述">{data?.course?.description}</Descriptions.Item>
+            <Descriptions.Item label="课程状态">{data?.course?.available ? <Tag color="green">进行中</Tag> : <Tag color="red">已停课</Tag>}</Descriptions.Item>
+            <Descriptions.Item label="本次学习时间">{timerTag}</Descriptions.Item>
+            {score && <Descriptions.Item label="最新成绩"><Progress percent={Number(score?.point)} /></Descriptions.Item>}
         </Descriptions>
-
+        <Divider />
+        <iframe src={data?.course?.vrlink || ''} width={400} height={300} allowFullScreen style={{ margin: 'auto', display: 'block', pointerEvents: learning !== 'learning' ? 'none' : 'initial', opacity: learning !== 'learning' ? 0.3 : 1 }} />
         <Divider />
         <Paragraph>
-            <iframe src="/test.html"/>
             <ReactMarkdown className="markdown">{data?.course?.content ? resolveUploadsURL(data?.course.content) : ''}</ReactMarkdown>
         </Paragraph>
     </Typography>;

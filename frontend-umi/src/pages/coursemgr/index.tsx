@@ -40,15 +40,15 @@ const columns = [
         render: (v: boolean, rec: any) => rec.isTemplate? <Tag color="blue">课程模板</Tag> : v ? <Tag color="green">进行中</Tag> : <Tag color="volcano">已停课</Tag>
     },
     {
-        title: 'Action',
+        title: '操作',
         key: 'id',
         dataIndex: 'id',
-        width: 200,
+        width: 250,
         render: (v: string, record: any) => (
             <Space size="middle">
                 <Link to={'/course/' + v}>查看</Link>
                 <Link to={'/manage/coursemgr/' + v}>编辑</Link>
-                <a onClick={() => downloadFile(v)}>导出成绩</a>
+                <Button onClick={() => downloadFile(v)} disabled={record.isTemplate} type="link">导出成绩</Button>
             </Space>
         ),
     },
@@ -61,7 +61,7 @@ const CourseMgr = () => {
 
     const data: any = courseData?.courses;
 
-    return <ContentLayout title="Course Manage">
+    return <ContentLayout title="课程管理">
         <Toolbar >
             <Link to="/manage/coursemgr/add"><Button type="primary">添加课程</Button></Link>
         </Toolbar>

@@ -678,6 +678,9 @@
           "meta": {
             "type": "object"
           },
+          "vrlink": {
+            "type": "string"
+          },
           "published_at": {
             "type": "string",
             "format": "date-time"
@@ -708,6 +711,9 @@
           },
           "meta": {
             "type": "object"
+          },
+          "vrlink": {
+            "type": "string"
           },
           "published_at": {
             "type": "string",

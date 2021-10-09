@@ -76,7 +76,7 @@ const Detail = ({ id }: { id?: string }) => {
     }, [resetRes]);
 
     const formDom = <>
-        <Descriptions.Item label="UserName">
+        <Descriptions.Item label="用户名">
             {profileData?.user?.username}
         </Descriptions.Item>
         <Descriptions.Item label="Email">
@@ -84,18 +84,18 @@ const Detail = ({ id }: { id?: string }) => {
                 <Input type="email" disabled={!editing} />
             </FormItem>
         </Descriptions.Item>
-        <Descriptions.Item label="Role"><Tag color="blue">{profileData?.user?.role?.name}</Tag></Descriptions.Item>
-        <Descriptions.Item label="RealName">
+        <Descriptions.Item label="权限"><Tag color="blue">{profileData?.user?.role?.name}</Tag></Descriptions.Item>
+        <Descriptions.Item label="姓名">
             <FormItem name="realname" >
                 <Input type="text" disabled={!editing} />
             </FormItem>
         </Descriptions.Item>
-        <Descriptions.Item label="RealID">
+        <Descriptions.Item label="学号">
             <FormItem name="realid" >
                 <Input type="text" disabled={!editing} />
             </FormItem>
         </Descriptions.Item>
-        <Descriptions.Item label="Class">
+        <Descriptions.Item label="班级">
             <FormItem name="class" >
                 <Select showSearch 
                 filterOption={(input, option) =>
@@ -106,13 +106,13 @@ const Detail = ({ id }: { id?: string }) => {
                 }))} />
             </FormItem>
         </Descriptions.Item>
-        <Descriptions.Item label="id" >
+        <Descriptions.Item label="用户ID" >
             {profileData?.user?.id}
         </Descriptions.Item>
 
-        <Descriptions.Item label="Password">
-            <Popconfirm title='Reset password to as same with username' disabled={editing} onConfirm={onResetPassword}>
-                <Button type="link" loading={resetPwdLoading} disabled={editing}>Reset Password</Button>
+        <Descriptions.Item label="密码">
+            <Popconfirm title='是否重置密码，重置后新密码与用户名相同' disabled={editing} onConfirm={onResetPassword}>
+                <Button type="link" loading={resetPwdLoading} disabled={editing}>重置密码</Button>
             </Popconfirm>
         </Descriptions.Item>
 
@@ -121,7 +121,7 @@ const Detail = ({ id }: { id?: string }) => {
     const btngp = <Button.Group>
         {editing && <Popconfirm title="Are you sure?" onConfirm={() => form.submit()}><Button htmlType="submit" type="primary" loading={loading}>Save</Button></Popconfirm>}
         {editing && <Button onClick={() => setEditing(false)}>Cancel</Button>}
-        {!editing && <Button type="primary" onClick={() => setEditing(true)}>Update Profile</Button>}
+        {!editing && <Button type="primary" onClick={() => setEditing(true)}>编辑 Profile</Button>}
     </Button.Group>;
 
 

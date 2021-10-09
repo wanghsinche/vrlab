@@ -52,7 +52,7 @@ const Detail = ({ id }: { id?: string }) => {
     </Toolbar>
     <div style={{background:'#fff', padding:"50px 0"}}>
 
-    <Form form={form} onFinish={onFinish} style={{margin:"auto", width: 600}} labelCol={{span: 6}} wrapperCol={{span: 18}}>
+    <Form form={form} onFinish={onFinish} style={{margin:"auto", width: 800}} labelCol={{span: 4}} wrapperCol={{span: 20}}>
         <Form.Item label="Name" name="name" rules={[{required:true}]}>
             <Input />
         </Form.Item>
@@ -69,8 +69,11 @@ const Detail = ({ id }: { id?: string }) => {
         <Form.Item label="Cover" name="cover" valuePropName="src">
             <img width="300" height="150" />
         </Form.Item>
+        <Form.Item label="VR" name="vrlink" valuePropName="src">
+            <iframe width="400" height="300"/>
+        </Form.Item>
         <Form.Item label="Content" name="content" >
-            <Input.TextArea disabled/>
+            <Input.TextArea rows={30}/>
         </Form.Item>
 
     </Form>

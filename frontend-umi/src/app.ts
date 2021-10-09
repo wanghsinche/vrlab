@@ -16,7 +16,6 @@ export const layout = ({
 }): BasicLayoutProps => {
   return {
     onPageChange: () => {
-      console.log(initialState?.me);
     },
     rightContentRender: ()=>{
         return React.createElement('a', {

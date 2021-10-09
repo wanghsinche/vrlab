@@ -63,10 +63,10 @@ const Add = () => {
     }, [templateData]);
 
     const stepDom = <Steps current={state.current} >
-        <Step title="Select A Template" />
-        <Step title="Modify the Detail" />
-        <Step title="Preview the Detail" />
-        <Step title="Confirm" />
+        <Step title="选择模板" />
+        <Step title="修改课程" />
+        <Step title="预览" />
+        <Step title="完成" />
     </Steps>;
 
     const loading = templateLoading;
@@ -100,8 +100,11 @@ const Add = () => {
         <Form.Item label="Cover" name="cover" valuePropName="src">
             <img width="200" height="100" />
         </Form.Item>
+        <Form.Item label="VR" name="vrlink" valuePropName="src">
+            <iframe width="400" height="300" style={{pointerEvents:'none',}}/>
+        </Form.Item>
         <Form.Item label="Content" name="content" >
-            <Input.TextArea disabled/>
+            <Input.TextArea rows={30} disabled={state.current === 2}/>
         </Form.Item>
     </>;
 
@@ -109,12 +112,12 @@ const Add = () => {
         if (addCourseRes?.createCourse?.course){
             return <Result
                 status="success"
-                title="Successfully Create a new Course!"
+                title="成功新建一个课程!"
                 subTitle={`Course ID: ${addCourseRes?.createCourse?.course.id}`}
                 extra={[
-                    <Link to="/manage/coursemgr" key="list">
+                    <Link to="/course" key="list">
                         <Button type="primary" >
-                            Go Course List
+                            前往课程列表
                         </Button>
                     </Link>,
                 ]}
@@ -123,7 +126,7 @@ const Add = () => {
         if (addCourseLoading){
             return <Result 
                 status="info" 
-                title="Creating Course, please waiting"
+                title="创建中，请等待"
                 subTitle={<Spin spinning/>}
             />;
         }
@@ -141,7 +144,7 @@ const Add = () => {
 
     return <ContentLayout >
         <PageHeader onBack={history.goBack} className="site-page-header" title="Back" />
-        <Toolbar addon="Add New Course">
+        <Toolbar addon="添加新课程">
             {btngp}
         </Toolbar>
         <div style={{ background: '#fff', padding: '16px' }}>
@@ -149,7 +152,7 @@ const Add = () => {
             <Divider />
             <Form form={form} 
             onFinish={submit}
-            style={{ width: 600, margin: '20px auto' }} labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+            style={{ width: 800, margin: '20px auto' }} labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
                 {state.current <= 2 && templateSelector}
                 {state.current <= 2 && state.current > 0 && detail}
                 {state.current === 3 && resultPage}

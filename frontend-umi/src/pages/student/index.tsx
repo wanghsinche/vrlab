@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 const columns = [
     {
-        title: 'username',
+        title: 'Username',
         dataIndex: 'username',
         key: 'username',
     },
@@ -30,7 +30,7 @@ const columns = [
         render: (v: any) => <Tag>{v?.name}</Tag>
     },
     {
-        title: 'role',
+        title: '角色权限',
         key: 'role',
         dataIndex: 'role',
         render: (v: any) => <Tag color="blue" >
@@ -38,12 +38,12 @@ const columns = [
         </Tag>,
     },
     {
-        title: 'Action',
+        title: '操作',
         dataIndex: 'id',
         key: 'id',
         render: (id: string) => (
             <Space>
-                <Link to={"/manage/student/" + id}>Detail</Link>
+                <Link to={"/manage/student/" + id}>详情</Link>
             </Space>
         ),
     },
@@ -78,9 +78,9 @@ const Student = () => {
         refetch();
     }, [currentClass]);
 
-    return <ContentLayout title="User Manage">
+    return <ContentLayout title="用户管理">
         <Toolbar addon={addon}>
-            <Link to="/manage/student/add"><Button type="primary">Add Users</Button></Link>
+            <Link to="/manage/student/add"><Button type="primary">添加用户</Button></Link>
         </Toolbar>
         <Table rowKey="username" columns={columns} dataSource={finalData as any} loading={loading || classLoading} />
     </ContentLayout>;

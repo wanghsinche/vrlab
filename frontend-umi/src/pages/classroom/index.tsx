@@ -15,39 +15,39 @@ const Classroom = ()=>{
     const [current, setCurrent] = useState<{id:string, name:string}|null>(null);
     const columns = useMemo(()=>[
         {
-            title: 'id',
+            title: 'ID',
             dataIndex: 'id',
             key: 'id',
         },
         {
-            title: 'Name',
+            title: '班级名称',
             dataIndex: 'name',
             key: 'name',
         },
         {
-            title: 'Create at',
+            title: '创建于',
             dataIndex: 'created_at',
             key: 'created_at',
         },
         {
-            title: 'Action',
+            title: '操作',
             key: 'action',
             dataIndex: 'id',
             render: (_:string, record: any) => (
                 <Space size="middle">
-                    <a onClick={()=>{setCurrent(record);setEditing(true);}}>Edit</a>
+                    <a onClick={()=>{setCurrent(record);setEditing(true);}}>编辑</a>
                 </Space>
             ),
         },
     ], []); 
-    return <ContentLayout title="Class Manage">
+    return <ContentLayout title="班级管理">
         <Toolbar>
             <Button 
             type="primary"
             onClick={()=>{
                 setCurrent(null);
                 setEditing(true);
-            }}>Add</Button>
+            }}>新增</Button>
         </Toolbar>
         <Table rowKey="id" columns={columns} dataSource={classRes?.classes as any} loading={classLoading}/> 
         <DetailModal editing={editing} onClose={()=>{
@@ -83,7 +83,7 @@ const DetailModal = (p: {id?:string, name?:string, onClose: ()=>void, editing:bo
             form.setFieldsValue({name:p.name})
         }
     }, [p.name]);
-    const title = p.id?'Update Class':'Create Class';
+    const title = p.id?'更新班级':'创建班级';
     return <Modal title={title} visible={p.editing} onOk={()=>form.submit()} onCancel={p.onClose} okButtonProps={{loading:updateLoading||createLoading}}>
         <Form form={form} onFinish={onFinish}>
             <Form.Item name="name" label="Name" rules={[{required:true}]}><Input /></Form.Item>

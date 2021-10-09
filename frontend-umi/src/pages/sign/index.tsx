@@ -44,7 +44,7 @@ const Sign: React.FC = () => {
                 name="username"
                 rules={[{ required: true, message: 'Please input your Username!' }]}
             >
-                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名或者email" />
             </Form.Item>
             <Form.Item
                 name="password"

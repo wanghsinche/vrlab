@@ -44,6 +44,9 @@
     },
     "meta": {
       "type": "json"
+    },
+    "vrlink": {
+      "type": "string"
     }
   }
 }
