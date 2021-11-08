@@ -47,7 +47,7 @@ const Classroom = ()=>{
             onClick={()=>{
                 setCurrent(null);
                 setEditing(true);
-            }}>新增</Button>
+            }}>添加班级</Button>
         </Toolbar>
         <Table rowKey="id" columns={columns} dataSource={classRes?.classes as any} loading={classLoading}/> 
         <DetailModal editing={editing} onClose={()=>{
