@@ -1,7 +1,4 @@
 mergeInto(LibraryManager.library, {
-    /**
-        * detail 分数数据 json string
-    */
     postScore: function (str) {
         var payload = Pointer_stringify(str);
         console.log('[postScore]', payload);
