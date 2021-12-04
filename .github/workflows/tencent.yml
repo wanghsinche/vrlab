@@ -29,7 +29,7 @@ jobs:
     
     - name: Login Registry
       run: |
-        docker login --username=${docker_username} --password=${docker_password}
+        docker login --username=${docker_username} --password-stdin=${docker_password}
 
     # Build
     - name: Build Docker image
