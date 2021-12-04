@@ -1,0 +1,44 @@
+# This workflow will build a docker container, publish and deploy it to Tencent TCR when there is a push to the master branch.
+#
+# To configure this workflow:
+##
+#
+
+name: Tencent TCR Publish
+
+on:
+  push:
+    branches:
+      - master
+
+# Environment variables available to all jobs and steps in this workflow
+env:
+  TCR_IMAGE_URL: ccr.ccs.tencentyun.com/vrlab/qingong
+  TCR_USERNAME: 100021628627
+  TCR_NAME: qingong
+
+jobs:
+  setup-build-publish-deploy:
+    name: Setup, Build, Publish
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+      
+    # Build
+    - name: Build Docker image
+      run: |        
+        docker build . -t ccr.ccs.tencentyun.com/vrlab/qingong:${GITHUB_SHA} 
+
+    - name: Login Registry
+      run: |
+        docker login ccr.ccs.tencentyun.com --username=${TCR_USERNAME}
+
+    # Push the Docker image to TKE Registry
+    - name: Publish
+      run: |
+        docker push ccr.ccs.tencentyun.com/vrlab/qingong:[GITHUB_SHA]
+
+
