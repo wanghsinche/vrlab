@@ -30,7 +30,7 @@ jobs:
     # Build
     - name: Build Docker image
       run: |        
-        docker build -t ccr.ccs.tencentyun.com/vrlab/qingong:${GITHUB_SHA} 
+        docker build . -t ccr.ccs.tencentyun.com/vrlab/qingong:${GITHUB_SHA} 
 
     - name: Login Registry
       run: |
