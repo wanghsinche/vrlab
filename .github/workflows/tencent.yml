@@ -34,7 +34,7 @@ jobs:
 
     - name: Login Registry
       run: |
-        docker login -u ${{ TCR_USERNAME }} ${TKE_IMAGE_URL}
+        docker login -u ${TCR_USERNAME} ${TKE_IMAGE_URL}
 
     # Push the Docker image to TKE Registry
     - name: Publish
