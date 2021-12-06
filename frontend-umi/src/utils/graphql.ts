@@ -1,7 +1,7 @@
 import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
 import { setContext } from '@apollo/client/link/context';
 import { onError } from "@apollo/client/link/error";
-import { message } from 'antd';
+import { message, Modal } from 'antd';
 import token from './token';
 
 export const serverURL = SERVER_URL;
@@ -21,7 +21,7 @@ const authLink = setContext((_, { headers }) => {
     }
   });
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
+const errorLink = onError(({ graphQLErrors, networkError, response }) => {
   if (graphQLErrors)
     graphQLErrors.forEach(({ message:msg, locations, path }) =>
     { 
@@ -35,8 +35,15 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
   if (networkError) {
     const text = `[Network error]: ${networkError}`;
-    console.log(text);
     message.error(text);
+    if ('result' in networkError){
+      if (networkError.result.message?.includes('license')){
+        Modal.error({
+          title: '软件证书失效，请联系供应商',
+          content: `${networkError.result.message}`
+        });
+      }
+    }
   }
 });
   
@@ -46,7 +53,15 @@ export const client = new ApolloClient({
   // The `from` function combines an array of individual links
   // into a link chain
   link: from([errorLink, authLink, httpLink]),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  defaultOptions:{
+    query:{
+      errorPolicy:'all'
+    },
+    mutate:{
+      errorPolicy:'all'
+    }
+  }
 });
 
 export { gql } from '@apollo/client';

@@ -9,13 +9,19 @@
  *
  * See more details here: https://strapi.io/documentation/developer-docs/latest/setup-deployment-guides/configurations.html#cron-tasks
  */
-
+const { licenseVerify, getLicenseState } = require('../../utils/license');
 module.exports = {
   /**
    * Simple example.
    * Every monday at 1am.
    */
-  // '0 1 * * 1': () => {
-  //
-  // }
+  '*/1 * * * *': () => {
+    const st = getLicenseState();
+    if (!st.isvalid){
+      licenseVerify();
+    }
+  },
+  '* * 1 * *':() => {
+    licenseVerify();
+  }
 };
