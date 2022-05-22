@@ -45,6 +45,9 @@ export async function getInitialState() {
   const { data: globalData} = await client.query<GetGlobalQuery>({query: getGlobal});
   try {
     const {data} = await client.query<MeQuery>({query: ME});
+    if (!data.me) {
+      throw('No info');
+    }
     return {...data, ...globalData};    
   } catch (error) {
     history.push('/sign');
