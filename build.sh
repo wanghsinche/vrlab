@@ -5,5 +5,6 @@ sudo docker run \
 -p 8080:80 \
 -v /home/ubuntu/data:/app/backend/data \
 #qingong:last
-wanghsinche/vrlab:73b2742a1fa702f2d3593327a08237b935757ad7
+wanghsinche/vrlab:1c40a93c974247f40ea6b76d72cfb80510b1fa22
+
  
