@@ -15,7 +15,7 @@ const Classroom = ()=>{
     const [current, setCurrent] = useState<{id:string, name:string}|null>(null);
     const columns = useMemo(()=>[
         {
-            title: 'ID',
+            title: '班级ID',
             dataIndex: 'id',
             key: 'id',
         },

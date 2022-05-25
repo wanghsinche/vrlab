@@ -16,11 +16,11 @@ export default defineConfig({
       // Do not show the menu top bar
       menuHeaderRender: false,
     },
-    { path: '/course', component: '@/pages/course', name: 'Course', icon: 'ExperimentOutlined', 
+    { path: '/course', component: '@/pages/course', name: '课程列表', icon: 'ExperimentOutlined', 
     },
     {path: '/course/:id', component: '@/pages/course/detail',},
-    {path: '/manage', name: 'Manage', icon: 'AppstoreOutlined', routes: [
-      { path: 'student', component: '@/pages/student', name: 'User Manage', icon: 'TeamOutlined', 
+    {path: '/manage', name: '管理模块', icon: 'AppstoreOutlined', routes: [
+      { path: 'student', component: '@/pages/student', name: '用户管理', icon: 'TeamOutlined', 
         access: 'forTeacher',
       },
       { path: 'student/add', component: '@/pages/student/add',
@@ -29,10 +29,10 @@ export default defineConfig({
       { path: 'student/:id', component: '@/pages/student/detail',
         access: 'forTeacher',
       },
-      { path: 'classroom', component: '@/pages/classroom', name: 'Class Manage', icon: 'HomeOutlined', 
+      { path: 'classroom', component: '@/pages/classroom', name: '班级管理', icon: 'HomeOutlined', 
         access: 'forTeacher',
       },
-      { path: 'coursemgr', component: '@/pages/coursemgr', name: 'Course Manage',  
+      { path: 'coursemgr', component: '@/pages/coursemgr', name: '课程管理',  
         access: 'forTeacher',
       },
       { path: 'coursemgr/add', component: '@/pages/coursemgr/add',
@@ -42,7 +42,7 @@ export default defineConfig({
       access: 'forTeacher',
       },
     ]},
-    { path: '/profile', component: '@/pages/profile', name: 'Profile', icon: 'ProfileOutlined', 
+    { path: '/profile', component: '@/pages/profile', name: '信息管理', icon: 'ProfileOutlined', 
     },
     { component: '@/pages/index'}
   ],

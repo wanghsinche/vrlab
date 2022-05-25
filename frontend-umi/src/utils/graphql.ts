@@ -11,20 +11,19 @@ const httpLink = new HttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-    // get the authentication token from local storage if it exists
-    // return the headers to the context so httpLink can read them
-    return {
-      headers: {
-        ...headers,
-        authorization: token.val ? `Bearer ${token.val}` : "",
-      }
+  // get the authentication token from local storage if it exists
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: token.val ? `Bearer ${token.val}` : "",
     }
-  });
+  }
+});
 
 const errorLink = onError(({ graphQLErrors, networkError, response }) => {
-  if (graphQLErrors)
-    graphQLErrors.forEach(({ message:msg, locations, path }) =>
-    { 
+  if (graphQLErrors) {
+    graphQLErrors.forEach(({ message: msg, locations, path }) => {
       const text = `[GraphQL error]: Message: ${msg}, Location: ${locations}, Path: ${path}`;
       console.log(text);
       if (path?.includes('me') || path?.includes('login')) {
@@ -32,12 +31,13 @@ const errorLink = onError(({ graphQLErrors, networkError, response }) => {
       }
       message.error(text);
     });
+  }
 
   if (networkError) {
     const text = `[Network error]: ${networkError}`;
     message.error(text);
-    if ('result' in networkError){
-      if (networkError.result.message?.includes('license')){
+    if ('result' in networkError) {
+      if (networkError.result.message?.includes('license')) {
         Modal.error({
           title: '软件证书失效，请联系供应商',
           content: `${networkError.result.message}`
@@ -46,7 +46,7 @@ const errorLink = onError(({ graphQLErrors, networkError, response }) => {
     }
   }
 });
-  
+
 // If you provide a link chain to ApolloClient, you
 // don't provide the `uri` option.
 export const client = new ApolloClient({
@@ -54,12 +54,12 @@ export const client = new ApolloClient({
   // into a link chain
   link: from([errorLink, authLink, httpLink]),
   cache: new InMemoryCache(),
-  defaultOptions:{
-    query:{
-      errorPolicy:'all'
+  defaultOptions: {
+    query: {
+      errorPolicy: 'all'
     },
-    mutate:{
-      errorPolicy:'all'
+    mutate: {
+      errorPolicy: 'all'
     }
   }
 });

@@ -1,0 +1,28 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/systeminfo",
+      "handler": "systeminfo.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/systeminfo",
+      "handler": "systeminfo.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/systeminfo",
+      "handler": "systeminfo.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

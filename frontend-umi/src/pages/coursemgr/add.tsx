@@ -91,19 +91,19 @@ const Add = () => {
     </Form.Item>;
 
     const detail = <>
-        <Form.Item label="Name" name="name">
+        <Form.Item label="课程名称" name="name">
             <Input disabled={state.current === 2} />
         </Form.Item>
-        <Form.Item label="Description" name="description">
+        <Form.Item label="课程描述" name="description">
             <Input.TextArea disabled={state.current === 2} />
         </Form.Item>
-        <Form.Item label="Cover" name="cover" valuePropName="src">
+        <Form.Item label="课程封面" name="cover" valuePropName="src">
             <img width="200" height="100" />
         </Form.Item>
         <Form.Item label="VR" name="vrlink" valuePropName="src">
             <iframe width="400" height="300" style={{pointerEvents:'none',}}/>
         </Form.Item>
-        <Form.Item label="Content" name="content" >
+        <Form.Item label="课程文字内容" name="content" >
             <Input.TextArea rows={30} disabled={state.current === 2}/>
         </Form.Item>
     </>;
@@ -113,7 +113,7 @@ const Add = () => {
             return <Result
                 status="success"
                 title="成功新建一个课程!"
-                subTitle={`Course ID: ${addCourseRes?.createCourse?.course.id}`}
+                subTitle={`课程 ID: ${addCourseRes?.createCourse?.course.id}`}
                 extra={[
                     <Link to="/course" key="list">
                         <Button type="primary" >
@@ -133,10 +133,10 @@ const Add = () => {
         if (addCourseError) {
             return <Result
             status="error" 
-            title="Fail to Create"
+            title="创建失败"
             subTitle={addCourseError.message}
             extra={<Button type="primary" onClick={()=>dispatch("prev")}>
-                Check your info again
+                请仔细检查输入的信息
             </Button>}
         />;
         }

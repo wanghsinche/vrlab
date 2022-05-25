@@ -1,0 +1,10 @@
+services:
+    vrlab:
+        image: wanghsinche/vrlab:1c40a93c974247f40ea6b76d72cfb80510b1fa22
+        environment: 
+            PORT: 80
+            URL: http://0.0.0.0/api
+            ID: gzqg
+        ports: 8080:80
+        volumes:  
+            - "/home/ubuntu/data:/app/backend/data"

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "develop:backend": "yarn --cwd backend develop",
-    "develop:frontend": "wait-on http://localhost:1337/admin && yarn --cwd frontend-umi develop",
+    "develop:frontend": "yarn --cwd frontend-umi develop",
     "develop": "cross-env FORCE_COLOR=1 npm-run-all -l -p develop:*",
     "start:backend": "yarn --cwd backend start",
     "start:frontend": "http-server frontend-umi/dist -p 8080",

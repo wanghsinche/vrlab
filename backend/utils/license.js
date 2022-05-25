@@ -3,7 +3,7 @@ const { machineIdSync } = require('node-machine-id');
 const jws = require('jws');
 const { default: axios } = require('axios');
 
-let id = machineIdSync({original: true})
+let id = process.env.ID || machineIdSync({original: true})
 let isvalid = true;
 let message = '';
 

@@ -17,7 +17,7 @@ const Sign: React.FC = () => {
         }
         if (data?.login?.jwt) {
             token.val = data?.login?.jwt;
-            message.success("wellcome " + data.login.user.email);
+            message.success("欢迎 " + data.login.user.email);
             location.href = "/";
         }
     }, [data, error]);
@@ -58,12 +58,12 @@ const Sign: React.FC = () => {
                 />
             </Form.Item>
             <Form.Item name="remember" valuePropName="checked" >
-                <Checkbox onChange={(e) => token.persist(e.target.checked)}>Remember me</Checkbox>
+                <Checkbox onChange={(e) => token.persist(e.target.checked)}>保留登入信息</Checkbox>
             </Form.Item>
 
             <Form.Item>
                 <Button loading={loading} type="primary" htmlType="submit" className="login-form-button" style={{width: '100%'}}>
-                    Sign In
+                    登入
                 </Button>
             </Form.Item>
         </Form>

@@ -21,7 +21,7 @@ query me{
 }
 `;
 
-export const LIST_COURSES = gql `
+export const LIST_COURSES = gql`
 query listCourses{
     courses{
         id, 
@@ -287,6 +287,18 @@ query getGlobal{
   global{
     siteName,
     
+  }
+}
+`;
+
+export const getSystemInfo = gql`
+query getSystemInfo{
+  systeminfo{
+    config,
+    frontend,
+    server,
+    product,
+    request
   }
 }
 `;

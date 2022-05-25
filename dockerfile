@@ -17,7 +17,8 @@ RUN yarn install
 
 ENV SERVER_URL=/api  \
     URL=/api \
-    NODE_ENV=production
+    NODE_ENV=production \
+    ID= 
 
 # backend
 COPY backend/ backend/

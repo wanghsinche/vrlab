@@ -88,9 +88,9 @@ const Profile = () => {
 
         <Descriptions.Item label="操作" span={2}>
             <Button.Group>
-                {editing && <Popconfirm title="Are you sure?" onConfirm={() => form.submit()}><Button htmlType="submit" type="primary" loading={loading}>Save</Button></Popconfirm>}
-                {editing && <Button onClick={() => setEditing(false)}>Cancel</Button>}
-                {!editing && <Button type="primary" onClick={() => setEditing(true)}>编辑 Profile</Button>}
+                {editing && <Popconfirm title="你确定吗？" onConfirm={() => form.submit()}><Button htmlType="submit" type="primary" loading={loading}>保存</Button></Popconfirm>}
+                {editing && <Button onClick={() => setEditing(false)}>取消</Button>}
+                {!editing && <Button type="primary" onClick={() => setEditing(true)}>编辑信息</Button>}
             </Button.Group>
         </Descriptions.Item>
     </>;

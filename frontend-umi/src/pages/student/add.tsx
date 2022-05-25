@@ -63,9 +63,9 @@ const Add = ()=>{
         <Toolbar >
             <Button.Group>
                 <Popconfirm title="请确认数据无误" onConfirm={()=>form.submit()}>
-                    <Button type="primary" loading={loading}>Save</Button>
+                    <Button type="primary" loading={loading}>保存</Button>
                 </Popconfirm>
-                <Link to="/manage/student"><Button>Cancel</Button></Link>
+                <Link to="/manage/student"><Button>取消</Button></Link>
             </Button.Group>
         </Toolbar>
         <Form layout="vertical" form={form} onFinish={onFinish}>

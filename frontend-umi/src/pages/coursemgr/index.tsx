@@ -9,24 +9,24 @@ import { Link } from 'react-router-dom';
 
 const columns = [
     {
-        title: 'id',
+        title: '课程ID',
         dataIndex: 'id',
         key: 'id',
-        width: 50
+        width: 100
     },
     {
-        title: 'Name',
+        title: '课程名称',
         dataIndex: 'name',
         key: 'name',
     },
     {
-        title: 'Description',
+        title: '课程描述',
         dataIndex: 'description',
         key: 'description',
         ellipsis: 20,
     },
     {
-        title: 'Cover',
+        title: '课程封面',
         dataIndex: 'cover',
         key: 'cover',
         render: (v: any) => <div style={{ textAlign: 'left' }}>
@@ -34,7 +34,7 @@ const columns = [
         </div>
     },
     {
-        title: 'Status',
+        title: '课程状态',
         dataIndex: 'available',
         key: 'available',
         render: (v: boolean, rec: any) => rec.isTemplate? <Tag color="blue">课程模板</Tag> : v ? <Tag color="green">进行中</Tag> : <Tag color="volcano">已停课</Tag>

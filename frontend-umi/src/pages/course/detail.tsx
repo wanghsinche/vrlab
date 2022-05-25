@@ -49,7 +49,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
     });
     const [opUpdateScore, resUpdateScore] = useMutation<UpdateScoreMutation, UpdateScoreMutationVariables>(updateScore);
     const [opCreateScore, resCreateScore] = useMutation<CreateScoreMutation, CreateScoreMutationVariables>(createScore);
-    const [learning, setLearning] = useState<'idle' | 'learning'>('idle');
+    const [learning, setLearning] = useState<'idle' | 'learning'>('learning');
 
     const timerTag = useMemo(() => learning !== 'learning' ? '--' : <Timer />, [p.id, learning]);
 
@@ -135,10 +135,11 @@ const Detail: React.FC<{ id: string }> = (p) => {
             {score && <Descriptions.Item label="最新成绩"><Progress percent={Number(score?.point)} /></Descriptions.Item>}
         </Descriptions>
         <Divider />
+        <ReactMarkdown className="markdown">{data?.course?.content ? resolveUploadsURL(data?.course.content) : ''}</ReactMarkdown>
+        <Divider />
         {/* <iframe src={data?.course?.vrlink || ''} width="800" height="600" style={{ margin: 'auto', display: 'block', pointerEvents: learning !== 'learning' ? 'none' : 'initial', opacity: learning !== 'learning' ? 0.8: 1, width: '80%' } as any}  /> */}
         <EnhancedIframe src={data?.course?.vrlink || ''}   ratio={20/40} disabled={learning!=='learning'}/>
-        <Divider />
-        <ReactMarkdown className="markdown">{data?.course?.content ? resolveUploadsURL(data?.course.content) : ''}</ReactMarkdown>
+
     </Typography>;
 
 

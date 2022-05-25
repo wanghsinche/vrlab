@@ -9,7 +9,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 const columns = [
     {
-        title: 'Username',
+        title: '用户名',
         dataIndex: 'username',
         key: 'username',
     },
@@ -62,7 +62,7 @@ const Student = () => {
 
     const { data: classData, loading: classLoading } = useQuery<ClassroomQuery>(CLASSES);
     const addon = <Space>
-        <Input.Search placeholder="search by name, email, student ID" onSearch={(s)=>setFilter(s)} allowClear />
+        <Input.Search placeholder="查询学号，邮箱，姓名" onSearch={(s)=>setFilter(s)} allowClear />
         <Select value={currentClass}
             style={{minWidth: 100}}
             showSearch

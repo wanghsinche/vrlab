@@ -19,8 +19,8 @@ const Detail = ({ id }: { id?: string }) => {
     const [updateAct, {data:updateRes, loading:updateLoading}] = useMutation<UpdateCourseMutation, UpdateCourseMutationVariables>(updateCourse);
 
     const btngp = <Button.Group>
-        <Popconfirm title="Are you sure?" onConfirm={() => form.submit()}><Button htmlType="submit" type="primary" loading={updateLoading}>Save</Button></Popconfirm>
-        <Button onClick={() => history.goBack()}>Cancel</Button>
+        <Popconfirm title="你确定吗？" onConfirm={() => form.submit()}><Button htmlType="submit" type="primary" loading={updateLoading}>保存</Button></Popconfirm>
+        <Button onClick={() => history.goBack()}>取消</Button>
     </Button.Group>;
 
     const onFinish= useCallback((v)=>{
@@ -41,7 +41,7 @@ const Detail = ({ id }: { id?: string }) => {
 
     useEffect(()=>{
         if (updateRes?.updateCourse){
-            message.success("Update Course!");
+            message.success("更新成功！");
         }
     }, [updateRes]);
 
@@ -53,26 +53,26 @@ const Detail = ({ id }: { id?: string }) => {
     <div style={{background:'#fff', padding:"50px 0"}}>
 
     <Form form={form} onFinish={onFinish} style={{margin:"auto", width: 800}} labelCol={{span: 4}} wrapperCol={{span: 20}}>
-        <Form.Item label="Name" name="name" rules={[{required:true}]}>
+        <Form.Item label="课程名称" name="name" rules={[{required:true}]}>
             <Input />
         </Form.Item>
-        <Form.Item label="IsTemplate" name="isTemplate" >
+        <Form.Item label="是否为模板" name="isTemplate" >
             <IsTemplate />
         </Form.Item>
 
-        <Form.Item label="Description" name="description" rules={[{required:true}]}>
+        <Form.Item label="课程描述" name="description" rules={[{required:true}]}>
             <Input.TextArea />
         </Form.Item>
-        <Form.Item label="Available" name="available" rules={[{required:true}]} valuePropName="checked">
+        <Form.Item label="是否可用" name="available" rules={[{required:true}]} valuePropName="checked">
             <Switch disabled={!!(courseRes?.course?.isTemplate)}/>
         </Form.Item>
-        <Form.Item label="Cover" name="cover" valuePropName="src">
+        <Form.Item label="课程封面" name="cover" valuePropName="src">
             <img width="300" height="150" />
         </Form.Item>
         <Form.Item label="VR" name="vrlink" valuePropName="src">
             <iframe width="400" height="300"/>
         </Form.Item>
-        <Form.Item label="Content" name="content" >
+        <Form.Item label="课程文字内容" name="content" >
             <Input.TextArea rows={30}/>
         </Form.Item>
 

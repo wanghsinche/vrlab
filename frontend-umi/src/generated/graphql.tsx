@@ -365,7 +365,7 @@ export type LocaleInput = {
   updated_by?: Maybe<Scalars['ID']>;
 };
 
-export type Morph = Class | ClassAggregator | ClassConnection | ClassConnectionCreated_At | ClassConnectionId | ClassConnectionName | ClassConnectionPublished_At | ClassConnectionUpdated_At | ClassGroupBy | ComponentSectionsFooter | ComponentSectionsHero | ComponentSharedSeo | Course | CourseAggregator | CourseConnection | CourseConnectionAvailable | CourseConnectionContent | CourseConnectionCover | CourseConnectionCreated_At | CourseConnectionDescription | CourseConnectionId | CourseConnectionIsTemplate | CourseConnectionMeta | CourseConnectionName | CourseConnectionPublished_At | CourseConnectionUpdated_At | CourseConnectionVrlink | CourseGroupBy | Global | Homepage | I18NLocale | Score | ScoreAggregator | ScoreAggregatorAvg | ScoreAggregatorMax | ScoreAggregatorMin | ScoreAggregatorSum | ScoreConnection | ScoreConnectionCourse | ScoreConnectionCreated_At | ScoreConnectionDetail | ScoreConnectionId | ScoreConnectionPoint | ScoreConnectionPublished_At | ScoreConnectionStudent | ScoreConnectionUpdated_At | ScoreGroupBy | UploadFile | UploadFileAggregator | UploadFileAggregatorAvg | UploadFileAggregatorMax | UploadFileAggregatorMin | UploadFileAggregatorSum | UploadFileConnection | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionCreated_At | UploadFileConnectionExt | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionHeight | UploadFileConnectionId | UploadFileConnectionMime | UploadFileConnectionName | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | UploadFileConnectionSize | UploadFileConnectionUpdated_At | UploadFileConnectionUrl | UploadFileConnectionWidth | UploadFileGroupBy | UserPermissionsPasswordPayload | UsersPermissionsLoginPayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleAggregator | UsersPermissionsRoleConnection | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionType | UsersPermissionsRoleGroupBy | UsersPermissionsUser | UsersPermissionsUserAggregator | UsersPermissionsUserConnection | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionClass | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionRealid | UsersPermissionsUserConnectionRealname | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserGroupBy | CreateClassPayload | CreateCoursePayload | CreateRolePayload | CreateScorePayload | CreateUserPayload | DeleteClassPayload | DeleteCoursePayload | DeleteFilePayload | DeleteGlobalPayload | DeleteHomepagePayload | DeleteRolePayload | DeleteScorePayload | DeleteUserPayload | ImportUsersPayload | UpdateClassPayload | UpdateCoursePayload | UpdateGlobalPayload | UpdateHomepagePayload | UpdateRolePayload | UpdateScorePayload | UpdateUserPayload;
+export type Morph = Class | ClassAggregator | ClassConnection | ClassConnectionCreated_At | ClassConnectionId | ClassConnectionName | ClassConnectionPublished_At | ClassConnectionUpdated_At | ClassGroupBy | ComponentSectionsFooter | ComponentSectionsHero | ComponentSharedSeo | Course | CourseAggregator | CourseConnection | CourseConnectionAvailable | CourseConnectionContent | CourseConnectionCover | CourseConnectionCreated_At | CourseConnectionDescription | CourseConnectionId | CourseConnectionIsTemplate | CourseConnectionMeta | CourseConnectionName | CourseConnectionPublished_At | CourseConnectionUpdated_At | CourseConnectionVrlink | CourseGroupBy | Global | Homepage | I18NLocale | Score | ScoreAggregator | ScoreAggregatorAvg | ScoreAggregatorMax | ScoreAggregatorMin | ScoreAggregatorSum | ScoreConnection | ScoreConnectionCourse | ScoreConnectionCreated_At | ScoreConnectionDetail | ScoreConnectionId | ScoreConnectionPoint | ScoreConnectionPublished_At | ScoreConnectionStudent | ScoreConnectionUpdated_At | ScoreGroupBy | Systeminfo | UploadFile | UploadFileAggregator | UploadFileAggregatorAvg | UploadFileAggregatorMax | UploadFileAggregatorMin | UploadFileAggregatorSum | UploadFileConnection | UploadFileConnectionAlternativeText | UploadFileConnectionCaption | UploadFileConnectionCreated_At | UploadFileConnectionExt | UploadFileConnectionFormats | UploadFileConnectionHash | UploadFileConnectionHeight | UploadFileConnectionId | UploadFileConnectionMime | UploadFileConnectionName | UploadFileConnectionPreviewUrl | UploadFileConnectionProvider | UploadFileConnectionProvider_Metadata | UploadFileConnectionSize | UploadFileConnectionUpdated_At | UploadFileConnectionUrl | UploadFileConnectionWidth | UploadFileGroupBy | UserPermissionsPasswordPayload | UsersPermissionsLoginPayload | UsersPermissionsMe | UsersPermissionsMeRole | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsRoleAggregator | UsersPermissionsRoleConnection | UsersPermissionsRoleConnectionDescription | UsersPermissionsRoleConnectionId | UsersPermissionsRoleConnectionName | UsersPermissionsRoleConnectionType | UsersPermissionsRoleGroupBy | UsersPermissionsUser | UsersPermissionsUserAggregator | UsersPermissionsUserConnection | UsersPermissionsUserConnectionBlocked | UsersPermissionsUserConnectionClass | UsersPermissionsUserConnectionConfirmed | UsersPermissionsUserConnectionCreated_At | UsersPermissionsUserConnectionEmail | UsersPermissionsUserConnectionId | UsersPermissionsUserConnectionProvider | UsersPermissionsUserConnectionRealid | UsersPermissionsUserConnectionRealname | UsersPermissionsUserConnectionRole | UsersPermissionsUserConnectionUpdated_At | UsersPermissionsUserConnectionUsername | UsersPermissionsUserGroupBy | CreateClassPayload | CreateCoursePayload | CreateRolePayload | CreateScorePayload | CreateUserPayload | DeleteClassPayload | DeleteCoursePayload | DeleteFilePayload | DeleteGlobalPayload | DeleteHomepagePayload | DeleteRolePayload | DeleteScorePayload | DeleteSysteminfoPayload | DeleteUserPayload | ImportUsersPayload | UpdateClassPayload | UpdateCoursePayload | UpdateGlobalPayload | UpdateHomepagePayload | UpdateRolePayload | UpdateScorePayload | UpdateSysteminfoPayload | UpdateUserPayload;
 
 export type Mutation = {
   __typename?: 'Mutation';
@@ -385,6 +385,7 @@ export type Mutation = {
   /** Delete an existing role */
   deleteRole?: Maybe<DeleteRolePayload>;
   deleteScore?: Maybe<DeleteScorePayload>;
+  deleteSysteminfo?: Maybe<DeleteSysteminfoPayload>;
   /** Delete an existing user */
   deleteUser?: Maybe<DeleteUserPayload>;
   emailConfirmation?: Maybe<UsersPermissionsLoginPayload>;
@@ -402,6 +403,7 @@ export type Mutation = {
   /** Update an existing role */
   updateRole?: Maybe<UpdateRolePayload>;
   updateScore?: Maybe<UpdateScorePayload>;
+  updateSysteminfo?: Maybe<UpdateSysteminfoPayload>;
   /** Update an existing user */
   updateUser?: Maybe<UpdateUserPayload>;
   upload: UploadFile;
@@ -540,6 +542,11 @@ export type MutationUpdateScoreArgs = {
 };
 
 
+export type MutationUpdateSysteminfoArgs = {
+  input?: Maybe<UpdateSysteminfoInput>;
+};
+
+
 export type MutationUpdateUserArgs = {
   input?: Maybe<UpdateUserInput>;
 };
@@ -579,6 +586,7 @@ export type Query = {
   score?: Maybe<Score>;
   scores?: Maybe<Array<Maybe<Score>>>;
   scoresConnection?: Maybe<ScoreConnection>;
+  systeminfo?: Maybe<Systeminfo>;
   user?: Maybe<UsersPermissionsUser>;
   users?: Maybe<Array<Maybe<UsersPermissionsUser>>>;
   usersConnection?: Maybe<UsersPermissionsUserConnection>;
@@ -701,6 +709,11 @@ export type QueryScoresConnectionArgs = {
   sort?: Maybe<Scalars['String']>;
   start?: Maybe<Scalars['Int']>;
   where?: Maybe<Scalars['JSON']>;
+};
+
+
+export type QuerySysteminfoArgs = {
+  publicationState?: Maybe<PublicationState>;
 };
 
 
@@ -852,6 +865,30 @@ export type ScoreInput = {
   point?: Maybe<Scalars['Int']>;
   published_at?: Maybe<Scalars['DateTime']>;
   student?: Maybe<Scalars['ID']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
+export type Systeminfo = {
+  __typename?: 'Systeminfo';
+  config?: Maybe<Scalars['JSON']>;
+  created_at: Scalars['DateTime'];
+  frontend?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  product?: Maybe<Scalars['String']>;
+  published_at?: Maybe<Scalars['DateTime']>;
+  request?: Maybe<Scalars['String']>;
+  server?: Maybe<Scalars['String']>;
+  updated_at: Scalars['DateTime'];
+};
+
+export type SysteminfoInput = {
+  config?: Maybe<Scalars['JSON']>;
+  created_by?: Maybe<Scalars['ID']>;
+  frontend?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['String']>;
+  published_at?: Maybe<Scalars['DateTime']>;
+  request?: Maybe<Scalars['String']>;
+  server?: Maybe<Scalars['String']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
 
@@ -1410,6 +1447,11 @@ export type DeleteScorePayload = {
   score?: Maybe<Score>;
 };
 
+export type DeleteSysteminfoPayload = {
+  __typename?: 'deleteSysteminfoPayload';
+  systeminfo?: Maybe<Systeminfo>;
+};
+
 export type DeleteUserInput = {
   where?: Maybe<InputId>;
 };
@@ -1522,6 +1564,17 @@ export type EditScoreInput = {
   updated_by?: Maybe<Scalars['ID']>;
 };
 
+export type EditSysteminfoInput = {
+  config?: Maybe<Scalars['JSON']>;
+  created_by?: Maybe<Scalars['ID']>;
+  frontend?: Maybe<Scalars['String']>;
+  product?: Maybe<Scalars['String']>;
+  published_at?: Maybe<Scalars['DateTime']>;
+  request?: Maybe<Scalars['String']>;
+  server?: Maybe<Scalars['String']>;
+  updated_by?: Maybe<Scalars['ID']>;
+};
+
 export type EditUserInput = {
   blocked?: Maybe<Scalars['Boolean']>;
   class?: Maybe<Scalars['ID']>;
@@ -1604,6 +1657,15 @@ export type UpdateScoreInput = {
 export type UpdateScorePayload = {
   __typename?: 'updateScorePayload';
   score?: Maybe<Score>;
+};
+
+export type UpdateSysteminfoInput = {
+  data?: Maybe<EditSysteminfoInput>;
+};
+
+export type UpdateSysteminfoPayload = {
+  __typename?: 'updateSysteminfoPayload';
+  systeminfo?: Maybe<Systeminfo>;
 };
 
 export type UpdateUserInput = {
@@ -1778,3 +1840,8 @@ export type GetGlobalQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetGlobalQuery = { __typename?: 'Query', global?: Maybe<{ __typename?: 'Global', siteName: string }> };
+
+export type GetSystemInfoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetSystemInfoQuery = { __typename?: 'Query', systeminfo?: Maybe<{ __typename?: 'Systeminfo', config?: Maybe<any>, frontend?: Maybe<string>, server?: Maybe<string>, product?: Maybe<string>, request?: Maybe<string> }> };
