@@ -107,11 +107,20 @@ const Detail: React.FC<{ id: string }> = (p) => {
             return;
         }
         function h(event: any) {
-            console.log("main", JSON.parse(event.data));
-            submitScore({
-                point:Math.ceil(100 * Math.random()),
-                detail: JSON.stringify({ "process1": 50, "process2": 10 }),
-            });
+            try{
+                const rawData = JSON.parse(event.data);
+                const payload = JSON.parse(rawData.payload);
+                console.log("the payload", payload);
+                const score = payload.score;
+                const detail = payload.detail;
+                submitScore({
+                    point:Number(score),
+                    detail: JSON.stringify(detail),
+                });
+            }
+            catch(e){
+                message.error('WEBGL出错');
+            }
         }
         window.addEventListener("message", h, false);
         return () => window.removeEventListener("message", h);

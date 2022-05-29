@@ -7,6 +7,12 @@ const ExcelJS = require('exceljs');
  */
 function extractInfo(list){
     return list.map(el=>{
+        let details = undefined;
+        try {
+            details = JSON.parse(el.detail);
+        } catch (e) {
+            console.error(e);
+        }
         return {
             id: el.id,
             username: el.student.username,
@@ -14,7 +20,7 @@ function extractInfo(list){
             realid: el.student.realid,
             course: el.course.name,
             point: el.point,
-            detail: el.detail,
+            ...details
         };
     }); 
 }
@@ -28,6 +34,8 @@ module.exports = {
         workbook.modified = new Date();
         workbook.lastPrinted = new Date();
         const worksheet = workbook.addWorksheet('Scores');
+        
+        const courseDetail = await strapi.query('course').findOne({id: params.course_eq}, ['meta']);
 
         worksheet.columns = [
             { header: 'id', key: 'id', width: 10 },
@@ -36,9 +44,9 @@ module.exports = {
             { header: 'realname', key: 'realname', width: 30 },
             { header: 'realid', key: 'realid', width: 30 },
             { header: 'point', key: 'point', width: 10, },
-            { header: 'detail', key: 'detail', width: 50, }
-        ];
-          
+        ].concat(courseDetail.meta.required.map(el=>({
+            header: el, key: el, width: 10,
+        })));
         const scoreList = await strapi.query('score').find(params, ['course', 'student']);
         worksheet.addRows(extractInfo(scoreList));
      

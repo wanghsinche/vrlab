@@ -39,7 +39,8 @@ const Add = () => {
         if (temp) {
             form.setFieldsValue({
                 ...temp,
-                cover: serverURL + temp.cover?.url
+                cover: serverURL + temp.cover?.url,
+                meta: JSON.stringify(temp.meta, null, 2)
             });
         }
     }, [state.current, templateData?.courses]);
@@ -101,10 +102,13 @@ const Add = () => {
             <img width="200" height="100" />
         </Form.Item>
         <Form.Item label="VR" name="vrlink" valuePropName="src">
-            <iframe width="400" height="300" style={{pointerEvents:'none',}}/>
+            <iframe width="600" height="400" style={{pointerEvents:'none',}}/>
         </Form.Item>
         <Form.Item label="课程文字内容" name="content" >
             <Input.TextArea rows={30} disabled={state.current === 2}/>
+        </Form.Item>
+        <Form.Item label="WEBGL META" name="meta" >
+            <Input.TextArea rows={10} disabled/>
         </Form.Item>
     </>;
 
