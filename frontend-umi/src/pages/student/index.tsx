@@ -56,7 +56,7 @@ const Student = () => {
         variables: {
             classroom: currentClass
         },
-        skip: !currentClass
+        // skip: !currentClass
     });
     const [filter, setFilter] = useState('');
     const finalData = useMemo(() => filter ? data?.users?.filter(el => ('' + el?.realname + el?.realid + el?.username).includes(filter)) : data?.users, [data, filter]);
@@ -68,6 +68,7 @@ const Student = () => {
         <Select value={currentClass}
             style={{ minWidth: 100 }}
             showSearch
+            allowClear
             filterOption={(input, option) =>
                 (option?.label as string).toLowerCase().indexOf(input.toLowerCase()) >= 0
             }

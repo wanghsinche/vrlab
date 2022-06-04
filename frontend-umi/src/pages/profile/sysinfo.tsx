@@ -28,7 +28,7 @@ export function SysInfo() {
             </Descriptions.Item>
             <Descriptions.Item label="其他信息">
                 {systemData?.systeminfo?.config && Object.entries(systemData.systeminfo.config).map(([k, v]) => (
-                    <div>
+                    <div key={k}>
                         <span className="ant-btn-link" style={{ marginRight: 10}}>{k}</span>: {v}
                     </div>
                 ))}

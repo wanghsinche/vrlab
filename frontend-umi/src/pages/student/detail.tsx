@@ -37,7 +37,7 @@ export const Detail = ({ id }: { id?: string }) => {
             email: profileData?.user?.email,
             realname: profileData?.user?.realname,
             realid: profileData?.user?.realid,
-            class: String(profileData?.user?.class?.id)
+            class: profileData?.user?.class?.id && String(profileData?.user?.class?.id)
         });
     }, [editing, profileData]);
 
@@ -124,7 +124,6 @@ export const Detail = ({ id }: { id?: string }) => {
             {myself && <Button onClick={() => setReseting(true)} type="link" disabled={reseting || editing}>重置密码</Button>}
 
         </Descriptions.Item>
-        <PasswordForm show={reseting} onClose={onResetClose} />
 
     </>;
 
@@ -145,6 +144,7 @@ export const Detail = ({ id }: { id?: string }) => {
                 {formDom}
             </Descriptions>
         </Form>
+        <PasswordForm show={reseting} onClose={onResetClose} />
     </ContentLayout>;
 
 }

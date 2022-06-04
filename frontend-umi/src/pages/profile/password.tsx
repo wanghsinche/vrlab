@@ -39,14 +39,14 @@ export const PasswordForm = (p: PropsWithChildren<{ show: boolean, onClose: () =
     return <Modal width={400}
         visible={p.show} onOk={() => form.submit()}
         onCancel={() => p.onClose()}
-        okButtonProps={{ loading }} title="Reset Password">
+        okButtonProps={{ loading }} title="密码重置">
         <Form form={form}
             onFinish={onFinish}
             wrapperCol={{ span: 16 }} labelCol={{ span: 8 }}>
-            <Form.Item label="New Password" name="password" required={false} rules={[{ required: true, type: "string", min: 4, max: 8 }]}>
+            <Form.Item label="新的密码" name="password" required={false} rules={[{ required: true, type: "string", min: 4, max: 8 }]}>
                 <Input type="password" prefix={prefix} />
             </Form.Item>
-            <Form.Item label="Comfirm" name="comfirm" required={false}
+            <Form.Item label="再次输入" name="comfirm" required={false}
                 rules={[{
                     required: true,
                     message: 'Please confirm your password!',
@@ -56,7 +56,7 @@ export const PasswordForm = (p: PropsWithChildren<{ show: boolean, onClose: () =
                         if (!value || getFieldValue('password') === value) {
                             return Promise.resolve();
                         }
-                        return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                        return Promise.reject(new Error('两次密码输入不一致'));
                     },
                 }),
                 ]}

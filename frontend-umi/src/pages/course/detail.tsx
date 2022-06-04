@@ -49,16 +49,22 @@ const Detail: React.FC<{ id: string }> = (p) => {
     });
     const [opUpdateScore, resUpdateScore] = useMutation<UpdateScoreMutation, UpdateScoreMutationVariables>(updateScore);
     const [opCreateScore, resCreateScore] = useMutation<CreateScoreMutation, CreateScoreMutationVariables>(createScore);
-    const [learning, setLearning] = useState<'idle' | 'learning'>('learning');
+    const [learning, setLearning] = useState<'idle' | 'learning'>('idle');
 
     const timerTag = useMemo(() => learning !== 'learning' ? '--' : <Timer />, [p.id, learning]);
-
+    
     const score = scoreData?.scores && scoreData?.scores[0];
 
     const startLearning = useCallback(() => {
         setLearning('learning');
         message.info("开始学习，请操作VR课程")
     }, []);
+
+    useEffect(()=>{
+        if(data && data.course?.available){
+            setLearning('learning');
+        }
+    }, [data])
 
     const submitScore = useCallback((newScore: {point:number, detail:string}) => {
         if (!meData?.me?.id) {
@@ -141,7 +147,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
             <Descriptions.Item label="课程描述">{data?.course?.description}</Descriptions.Item>
             <Descriptions.Item label="课程状态">{data?.course?.available ? <Tag color="green">进行中</Tag> : <Tag color="red">已停课</Tag>}</Descriptions.Item>
             <Descriptions.Item label="本次学习时间">{timerTag}</Descriptions.Item>
-            {score && <Descriptions.Item label="最新成绩"><Progress percent={Number(score?.point)} /></Descriptions.Item>}
+            {score && <Descriptions.Item label="最新成绩"><Progress percent={Number(score?.point)}/></Descriptions.Item>}
         </Descriptions>
         <Divider />
         <ReactMarkdown className="markdown">{data?.course?.content ? resolveUploadsURL(data?.course.content) : ''}</ReactMarkdown>

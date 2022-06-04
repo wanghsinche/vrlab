@@ -70,17 +70,20 @@ module.exports = {
         .findOne({ type: advanced.default_role }, []);
 
         const role = defaultRole.id;
-
+        
         try {
-            const tasks = body.map(el=>{
+            const tasks = body.map(async el=>{
                 const {username, email, realid, realname} = el;
                 const user = {
+                    provider: 'local',
                     username, email, realid, realname,
                     confirmed: true,
-                    class: "3", // class "3" is the default unassigned class
                     password: username,
-                    role
+                    role,
                 };
+
+                user.email = user.email.toLowerCase();
+              
                 return  strapi.plugins['users-permissions'].services.user.add(user);
             });
             const data = await Promise.all(tasks);
