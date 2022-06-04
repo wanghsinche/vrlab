@@ -5,7 +5,7 @@
   "scripts": {
     "develop:backend": "yarn --cwd backend develop",
     "develop:frontend": "yarn --cwd frontend-umi develop",
-    "develop": "cross-env FORCE_COLOR=1 npm-run-all -l -p develop:*",
+    "develop": "cross-env SERVER_URL=http://zhxygateway.gzzhyc.cn:1337 FORCE_COLOR=1 npm-run-all -l -p develop:*",
     "start:backend": "yarn --cwd backend start",
     "start:frontend": "http-server frontend-umi/dist -p 8080",
     "start": "cross-env FORCE_COLOR=1 npm-run-all -l -p start:*"

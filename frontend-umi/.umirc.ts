@@ -15,6 +15,7 @@ export default defineConfig({
       menuRender: false,
       // Do not show the menu top bar
       menuHeaderRender: false,
+      exact: false,
     },
     { path: '/course', component: '@/pages/course', name: '课程列表', icon: 'ExperimentOutlined', 
     },

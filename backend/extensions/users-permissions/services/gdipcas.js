@@ -45,7 +45,6 @@ module.exports = function(ticket, service, cb){
           cb({ message: 'gdip CAS authenticate failed.' + res.body });
           return;
         }
-        console.log({username, name, email: `${username}@gdip.edu.cn`, UID });
         cb(null, {username, name, email: `${username}@gdip.edu.cn`, UID }) 
     })
 }

@@ -197,7 +197,7 @@ async function importSeedData() {
 }
 
 module.exports = async () => {
-  const shouldImportSeedData = await isFirstRun();
+  const shouldImportSeedData = false; // await isFirstRun();
 
   if (shouldImportSeedData) {
     try {

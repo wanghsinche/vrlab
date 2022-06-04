@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from "react";
-import { client } from '@/utils/graphql';
+import { client, serverURL } from '@/utils/graphql';
 import { Form, message, Row, Col, Button, Input, Layout, Card, Checkbox } from 'antd';
 import { ApolloProvider, useMutation, useQuery } from "@apollo/client";
 import token from "@/utils/token";
@@ -7,18 +7,18 @@ import Footer from '@/components/footer';
 import { getHomePage, LOGIN } from "@/utils/schema";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { GetHomePageQuery } from "@/generated/graphql";
+import { useRouteMatch } from 'umi';
+import { GDIPCAS } from "./gdipcas";
+import { afterLogin } from "./util";
 const Sign: React.FC = () => {
     const [form] = Form.useForm();
     const [login, { data, loading, error }] = useMutation(LOGIN);
-
     useEffect(() => {
         if (error) {
             message.error('login failed');
         }
         if (data?.login?.jwt) {
-            token.val = data?.login?.jwt;
-            message.success("欢迎 " + data.login.user.email);
-            location.href = "/";
+            afterLogin(data?.login?.jwt, data.login.user.email)
         }
     }, [data, error]);
 
@@ -62,30 +62,41 @@ const Sign: React.FC = () => {
             </Form.Item>
 
             <Form.Item>
-                <Button loading={loading} type="primary" htmlType="submit" className="login-form-button" style={{width: '100%'}}>
-                    登入
-                </Button>
+                <Button.Group style={{ width: '100%' }}>
+                    <Button loading={loading} type="primary" htmlType="submit" className="login-form-button" style={{ width: '50%' }}>
+                        登入
+                    </Button>
+                    <Button href={`${serverURL}/connect/gdipCAS`} style={{ width: '50%' }} onClick={()=>message.loading('登入中')}>
+                        智慧校园 CAS 登入
+                    </Button>
+
+                </Button.Group>
+
             </Form.Item>
         </Form>
-
     </Card>;
 };
 
 const Page = () => {
-    const { loading: homepageLoading, data: homepageData} = useQuery<GetHomePageQuery>(getHomePage);
+    const { loading: homepageLoading, data: homepageData } = useQuery<GetHomePageQuery>(getHomePage);
+    let dom: 'sign' | 'gdip' = 'sign';
+    if (location.pathname.toLowerCase().includes('gdip')) {
+        dom = 'gdip';
+    }
+
 
     return <Layout>
         <Layout.Header style={{ color: "#ffffff" }}> {homepageData?.homepage?.hero?.title} </Layout.Header>
-        <Layout.Content style={{background: '#fff'}}>
+        <Layout.Content style={{ background: '#fff' }}>
             <Card loading={homepageLoading}>
-                <Sign />
+                {dom === 'gdip' ? <GDIPCAS /> : <Sign />}
             </Card>
         </Layout.Content>
         <Footer />
     </Layout>;
 }
 
-export default function SignPage(){
+export default function SignPage() {
     return <ApolloProvider client={client}>
         <Page />
     </ApolloProvider>;

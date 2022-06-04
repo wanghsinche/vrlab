@@ -21,7 +21,11 @@ export const layout = ({
     },
     rightContentRender: ()=>{
       const isTeacher = initialState?.me?.role?.name === 'Teacher';
+      const displayText = initialState?.me?.username || initialState?.me?.email;
       return React.createElement(Space, null, [
+        React.createElement(Tag, {
+          color: 'volcano'
+        }, [displayText]),
         React.createElement(Tag, {
           color: isTeacher?'green':'blue'
         }, [isTeacher? '教师版':'学生版']),
@@ -50,7 +54,9 @@ export async function getInitialState() {
     }
     return {...data, ...globalData};    
   } catch (error) {
-    history.push('/sign');
+    if(!history.location.pathname.includes('sign')){
+      history.push('/sign');
+    }
   }
   return {...globalData};
 
