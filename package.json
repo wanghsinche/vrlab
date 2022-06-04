@@ -10,6 +10,9 @@
     "start:frontend": "http-server frontend-umi/dist -p 8080",
     "start": "cross-env FORCE_COLOR=1 npm-run-all -l -p start:*"
   },
+  "engines": {
+    "node": ">=14"
+  },
   "devDependencies": {
     "cross-env": "7.0.3",
     "heroku": "^7.59.0",

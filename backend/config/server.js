@@ -1,7 +1,7 @@
 module.exports = ({ env }) => ({
   host: env('HOST', '0.0.0.0'),
   port: 1337, //env.int('PORT', 1337),
-  url: env('URL', ''),
+  url: env('URL', 'http://zhxygateway.gzzhyc.cn:1337/'),
   cron :{
     enabled: true
   },
