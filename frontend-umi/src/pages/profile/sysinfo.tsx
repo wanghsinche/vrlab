@@ -15,7 +15,6 @@ export function SysInfo() {
     }, []);
 
     return <div>
-        <h1>系统概览</h1>
         <Descriptions style={{ background: '#fff' }} bordered key={i}>
             <Descriptions.Item label="产品">{systemData?.systeminfo?.product}</Descriptions.Item>
             <Descriptions.Item label="后端服务器">{systemData?.systeminfo?.server}</Descriptions.Item>

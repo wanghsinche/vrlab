@@ -51,20 +51,22 @@ const columns = [
 
 
 const Student = () => {
-    const [currentClass, setClass] = useState('3');
+    const [currentClass, setClass] = useState('');
     const { data, loading, refetch } = useQuery<ListUsersQuery, ListUsersQueryVariables>(listUsers, {
         variables: {
             classroom: currentClass
-        }
+        },
+        skip: !currentClass
     });
     const [filter, setFilter] = useState('');
-    const finalData = useMemo(()=>filter?data?.users?.filter(el=>(''+el?.realname+el?.realid+el?.username).includes(filter)):data?.users, [data, filter]);
+    const finalData = useMemo(() => filter ? data?.users?.filter(el => ('' + el?.realname + el?.realid + el?.username).includes(filter)) : data?.users, [data, filter]);
 
     const { data: classData, loading: classLoading } = useQuery<ClassroomQuery>(CLASSES);
+
     const addon = <Space>
-        <Input.Search placeholder="查询学号，邮箱，姓名" onSearch={(s)=>setFilter(s)} allowClear />
+        <Input.Search placeholder="查询学号，邮箱，姓名" onSearch={(s) => setFilter(s)} allowClear />
         <Select value={currentClass}
-            style={{minWidth: 100}}
+            style={{ minWidth: 100 }}
             showSearch
             filterOption={(input, option) =>
                 (option?.label as string).toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -77,6 +79,12 @@ const Student = () => {
     useEffect(() => {
         refetch();
     }, [currentClass]);
+
+    useEffect(() => {
+        if (classData?.classes?.length) {
+            setClass(classData?.classes?.[0]?.id as string);
+        }
+    }, [classData])
 
     return <ContentLayout title="用户管理">
         <Toolbar addon={addon}>

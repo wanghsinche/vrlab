@@ -2,44 +2,49 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Input, Select, Button, Popconfirm, Descriptions, Empty, message, Tag, PageHeader, Modal } from 'antd';
 import { FormItemProps } from 'antd/es/form/FormItem';
 import { ApolloProvider, useMutation, useQuery } from '@apollo/client';
-import { ClassroomQuery, ProfileQuery, ResetPasswordMutation, ResetPasswordMutationVariables, UpdateProfileMutation, UpdateProfileMutationVariables } from '@/generated/graphql';
-import { CLASSES, PROFILE, resetPassword, updateProfile } from '@/utils/schema';
+import { ClassroomQuery, MeQuery, ProfileQuery, ResetPasswordMutation, ResetPasswordMutationVariables, UpdateProfileMutation, UpdateProfileMutationVariables } from '@/generated/graphql';
+import { CLASSES, ME, PROFILE, resetPassword, updateProfile } from '@/utils/schema';
 import { ContentLayout, Toolbar } from '@/components/contentlayout';
 import { history } from 'umi';
 import { client } from '@/utils/graphql';
+import { REST_PROFILE, rest_resetPassword, rest_updateProfile } from '@/utils/restschema';
+import { PasswordForm } from '@/pages/profile/password';
 
 const FormItem = (p: FormItemProps) => {
     const { children, ...others } = p;
     return <Form.Item noStyle={true} rules={[{ required: false }]} {...others}>{children}</Form.Item>;
 }
 
-const Detail = ({ id }: { id?: string }) => {
-    if (!id) {
-        return <Empty />;
-    }
-    const { data: profileData, refetch } = useQuery<ProfileQuery>(PROFILE, {
+export const Detail = ({ id }: { id?: string }) => {
+    const { data: meData } = useQuery<MeQuery>(ME);
+
+    const { data: profileData, refetch } = useQuery<ProfileQuery>(REST_PROFILE, {
         variables: { id },
     });
     const { data: classData } = useQuery<ClassroomQuery>(CLASSES);
     const [form] = Form.useForm();
     const [editing, setEditing] = useState(false);
 
-    const [updateProfileAct, { loading, data: updateRes }] = useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(updateProfile);
-    const [resetPwdAct, { loading: resetPwdLoading, data: resetRes }] = useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(resetPassword);
+    const [updateProfileAct, { loading, data: updateRes }] = useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(rest_updateProfile);
+    const [resetPwdAct, { loading: resetPwdLoading, data: resetRes }] = useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(rest_resetPassword);
+
+    const [reseting, setReseting] = useState(false);
+
+    const myself = meData?.me?.id === id;
 
     useEffect(() => {
         form.setFieldsValue({
             email: profileData?.user?.email,
             realname: profileData?.user?.realname,
             realid: profileData?.user?.realid,
-            class: profileData?.user?.class?.id
+            class: String(profileData?.user?.class?.id)
         });
     }, [editing, profileData]);
 
     useEffect(() => {
         if (updateRes) {
             setEditing(false);
-            message.success("update sucessfully");
+            message.success("更新成功");
             refetch();
         }
     }, [updateRes]);
@@ -56,8 +61,8 @@ const Detail = ({ id }: { id?: string }) => {
         })
     }, [id]);
 
-    const onResetPassword = useCallback(()=>{
-        if (!profileData?.user?.username || !id){
+    const onResetPassword = useCallback(() => {
+        if (!profileData?.user?.username || !id) {
             return;
         }
         resetPwdAct({
@@ -71,10 +76,12 @@ const Detail = ({ id }: { id?: string }) => {
 
     useEffect(() => {
         if (resetRes) {
-            message.success("reset user's password");
+            message.success("更新密码成功");
         }
     }, [resetRes]);
-
+    const onResetClose = useCallback(() => {
+        setReseting(false);
+    }, []);
     const formDom = <>
         <Descriptions.Item label="用户名">
             {profileData?.user?.username}
@@ -97,13 +104,13 @@ const Detail = ({ id }: { id?: string }) => {
         </Descriptions.Item>
         <Descriptions.Item label="班级">
             <FormItem name="class" >
-                <Select showSearch 
-                filterOption={(input, option) =>
-                    (option?.label as string).toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }              
-                style={{ minWidth: 100 }} disabled={!editing} options={classData?.classes?.map(el => ({
-                    label: el!.name, value: el!.id,
-                }))} />
+                <Select showSearch
+                    filterOption={(input, option) =>
+                        (option?.label as string).toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                    style={{ minWidth: 100 }} disabled={!editing} options={classData?.classes?.map(el => ({
+                        label: el!.name, value: el!.id,
+                    }))} />
             </FormItem>
         </Descriptions.Item>
         <Descriptions.Item label="用户ID" >
@@ -111,10 +118,13 @@ const Detail = ({ id }: { id?: string }) => {
         </Descriptions.Item>
 
         <Descriptions.Item label="密码">
-            <Popconfirm title='是否重置密码，重置后新密码与用户名相同' disabled={editing} onConfirm={onResetPassword}>
+            {!myself && <Popconfirm title='是否重置密码，重置后新密码与用户名相同' disabled={editing} onConfirm={onResetPassword}>
                 <Button type="link" loading={resetPwdLoading} disabled={editing}>重置密码</Button>
-            </Popconfirm>
+            </Popconfirm>}
+            {myself && <Button onClick={() => setReseting(true)} type="link" disabled={reseting || editing}>重置密码</Button>}
+
         </Descriptions.Item>
+        <PasswordForm show={reseting} onClose={onResetClose} />
 
     </>;
 

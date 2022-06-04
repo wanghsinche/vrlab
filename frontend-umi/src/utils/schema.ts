@@ -147,7 +147,7 @@ mutation resetPassword($password:String!, $id: ID! ){
 `;
 
 export const listUsers = gql`
-query listUsers($classroom:ID="3"){
+query listUsers($classroom:ID!){
   users(where:{class_eq:$classroom}){
     role{
       name
@@ -302,3 +302,4 @@ query getSystemInfo{
   }
 }
 `;
+

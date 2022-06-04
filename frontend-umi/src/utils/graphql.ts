@@ -3,12 +3,16 @@ import { setContext } from '@apollo/client/link/context';
 import { onError } from "@apollo/client/link/error";
 import { message, Modal } from 'antd';
 import token from './token';
+import { RestLink } from 'apollo-link-rest';
 
 export const serverURL = SERVER_URL;
 
 const httpLink = new HttpLink({
   uri: serverURL + "/graphql"
 });
+
+// Set `RestLink` with your endpoint
+const restLink = new RestLink({ uri: serverURL });
 
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from local storage if it exists
@@ -52,7 +56,7 @@ const errorLink = onError(({ graphQLErrors, networkError, response }) => {
 export const client = new ApolloClient({
   // The `from` function combines an array of individual links
   // into a link chain
-  link: from([errorLink, authLink, httpLink]),
+  link: from([errorLink, authLink, restLink, httpLink]),
   cache: new InMemoryCache(),
   defaultOptions: {
     query: {
