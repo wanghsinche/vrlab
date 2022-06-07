@@ -1,15 +1,16 @@
 import { Form, Input, message, Modal } from 'antd';
 import { useMutation, useQuery } from '@apollo/client';
-import { ME, resetPassword } from '@/utils/schema';
+import { ME } from '@/utils/schema';
 import { MeQuery, ResetPasswordMutation, ResetPasswordMutationVariables } from '@/generated/graphql';
 import { PropsWithChildren, useCallback, useEffect } from 'react';
 import { LockOutlined } from "@ant-design/icons";
 import token from '@/utils/token';
+import { rest_resetPassword } from '@/utils/restschema';
 
 export const PasswordForm = (p: PropsWithChildren<{ show: boolean, onClose: () => void }>) => {
     const [form] = Form.useForm();
     const { data: meData } = useQuery<MeQuery>(ME);
-    const [resetPwdAct, { data, loading }] = useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(resetPassword);
+    const [resetPwdAct, { data, loading }] = useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(rest_resetPassword);
     const onFinish = useCallback((v) => {
         if (!meData?.me?.id) {
             return;
@@ -26,8 +27,8 @@ export const PasswordForm = (p: PropsWithChildren<{ show: boolean, onClose: () =
     }, [p.show]);
     useEffect(() => {
         if (data) {
-            message.success("reset password");
-            message.loading("relogin ...", 2000)
+            message.success("重置密码");
+            message.loading("重新登入 ...", 2000)
             token.clear();
             p.onClose();
             setTimeout(() => {
