@@ -21,7 +21,7 @@ ENV SERVER_URL=/api  \
     ID= 
 
 COPY frontend-umi/ frontend-umi/
-RUN cd frontend-umi && yarn install && yarn build && rm -fr node_modules
+RUN cd frontend-umi && yarn add @umijs/preset-react && yarn install && yarn build && rm -fr node_modules
 
 
 # backend
