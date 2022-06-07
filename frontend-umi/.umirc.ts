@@ -4,6 +4,9 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
+  access:{
+    strictMode: false
+  },
   routes: [
     { path: '/', component: '@/pages/index' },
     { path: '/sign', component: '@/pages/sign',
