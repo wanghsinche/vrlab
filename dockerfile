@@ -20,12 +20,13 @@ ENV SERVER_URL=/api  \
     NODE_ENV=production \
     ID= 
 
+COPY frontend-umi/ frontend-umi/
+RUN cd frontend-umi && yarn install && yarn build && rm -fr node_modules
+
+
 # backend
 COPY backend/ backend/
 RUN cd backend && yarn install && yarn build
-
-COPY frontend-umi/ frontend-umi/
-RUN cd frontend-umi && yarn install && yarn build && rm -fr node_modules
 
 
 VOLUME [ "/app/backend/data" ]
