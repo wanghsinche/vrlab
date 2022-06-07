@@ -31,7 +31,7 @@
     "react": "17.x",
     "react-dom": "17.x",
     "react-markdown": "^7.0.1",
-    "umi": "^3.5.19"
+    "umi": "3.5.19"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.2.0",
