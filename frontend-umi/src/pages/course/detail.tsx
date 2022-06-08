@@ -99,7 +99,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
 
     useEffect(() => {
         if (resUpdateScore.data || resCreateScore.data) {
-            message.success('完成课程!成绩已经更新 ');
+            message.success('完成课程!成绩已经更新', 10);
             finishLearning();
         }
 
@@ -135,7 +135,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
     const contentDom = <Typography>
         <Toolbar addon={<h3>{data?.course?.name}</h3>}>
             <Button.Group>
-                <Button onClick={startLearning} type="primary" disabled={learning !== 'idle' || !data?.course?.available} loading={learning === 'learning'}>开始学习</Button>
+                <Button onClick={startLearning} type="primary" disabled={learning !== 'idle' || !data?.course?.available} loading={learning === 'learning'}>进行学习</Button>
                 <Popconfirm onConfirm={finishLearning} title="确定停止？" disabled={learning === 'idle'}>
                     <Button disabled={learning === 'idle'}>停止学习</Button>
                 </Popconfirm>
