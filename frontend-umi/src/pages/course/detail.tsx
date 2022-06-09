@@ -125,6 +125,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
                 });
             }
             catch(e){
+                console.log(e);
                 message.error('WEBGL出错');
             }
         }
