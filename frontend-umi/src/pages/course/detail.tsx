@@ -11,6 +11,7 @@ import { CourseDetailQuery, MeQuery, GetScoreQuery, UpdateScoreMutation, CreateS
 import moment from 'moment';
 import './detail.less';
 import { EnhancedIframe } from '@/components/enhancediframe';
+import { throttle } from '@/utils/throttle';
 
 const { Title, Paragraph, Text, Link } = Typography;
 
@@ -24,6 +25,10 @@ function reducer(state: typeof initialState, action: 'add') {
             return state;
     }
 }
+
+const webglErr = throttle(()=>{
+    message.error('WEBGL出错');
+}, 1000 * 60);
 
 const Timer = () => {
     const [time, dispatch] = useReducer(reducer, initialState);
@@ -126,7 +131,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
             }
             catch(e){
                 console.log(e);
-                message.error('WEBGL出错');
+                webglErr()
             }
         }
         window.addEventListener("message", h, false);

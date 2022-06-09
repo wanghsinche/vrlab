@@ -31,7 +31,7 @@
     "react": "17.x",
     "react-dom": "17.x",
     "react-markdown": "^7.0.1",
-    "umi": "3.5.19"
+    "umi": "^3.5.19"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.2.0",
@@ -39,6 +39,7 @@
     "@graphql-codegen/typescript-operations": "2.1.4",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@umijs/preset-react": "^2.1.4",
     "@umijs/test": "^3.5.19",
     "lint-staged": "^10.0.7",
     "prettier": "^2.2.0",
