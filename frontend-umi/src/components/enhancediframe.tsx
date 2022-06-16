@@ -5,7 +5,7 @@ export const EnhancedIframe: React.FC< HTMLProps<HTMLIFrameElement> & {ratio?: n
     const [w, setW] = useState(100);
     useEffect(()=>{
         if (divRef.current) {
-            setW(Math.round(divRef.current.clientWidth*0.8));
+            setW(Math.round(divRef.current.clientWidth * 0.95));
         }
     }, [divRef.current]);
     return <div ref={divRef} style={{width: '100%', position:'relative'}}>

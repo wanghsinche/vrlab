@@ -153,7 +153,7 @@ const Detail: React.FC<{ id: string }> = (p) => {
             <Descriptions.Item label="课程描述">{data?.course?.description}</Descriptions.Item>
             <Descriptions.Item label="课程状态">{data?.course?.available ? <Tag color="green">进行中</Tag> : <Tag color="red">已停课</Tag>}</Descriptions.Item>
             <Descriptions.Item label="本次学习时间">{timerTag}</Descriptions.Item>
-            {score && <Descriptions.Item label="最新成绩"><Progress percent={Number(score?.point)}/></Descriptions.Item>}
+            {score && <Descriptions.Item label="最新成绩"><Progress percent={Number(score?.point)} type="circle" format={percent => `${percent} 分`} width={100}/></Descriptions.Item>}
         </Descriptions>
         <Divider />
         <ReactMarkdown className="markdown">{data?.course?.content ? resolveUploadsURL(data?.course.content) : ''}</ReactMarkdown>
