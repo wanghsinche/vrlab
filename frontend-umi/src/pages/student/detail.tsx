@@ -15,7 +15,7 @@ const FormItem = (p: FormItemProps) => {
     return <Form.Item noStyle={true} rules={[{ required: false }]} {...others}>{children}</Form.Item>;
 }
 
-export const Detail = ({ id }: { id?: string }) => {
+export const Detail = ({ id }: { id?: string;  }) => {
     const { data: meData } = useQuery<MeQuery>(ME);
 
     const { data: profileData, refetch } = useQuery<ProfileQuery>(REST_PROFILE, {
@@ -88,18 +88,18 @@ export const Detail = ({ id }: { id?: string }) => {
         </Descriptions.Item>
         <Descriptions.Item label="Email">
             <FormItem name="email" >
-                <Input type="email" disabled={!editing} />
+                <Input type="email" disabled />
             </FormItem>
         </Descriptions.Item>
         <Descriptions.Item label="权限"><Tag color="blue">{profileData?.user?.role?.name}</Tag></Descriptions.Item>
         <Descriptions.Item label="姓名">
             <FormItem name="realname" >
-                <Input type="text" disabled={!editing} />
+                <Input type="text" disabled />
             </FormItem>
         </Descriptions.Item>
         <Descriptions.Item label="学号">
             <FormItem name="realid" >
-                <Input type="text" disabled={!editing} />
+                <Input type="text" disabled />
             </FormItem>
         </Descriptions.Item>
         <Descriptions.Item label="班级">
@@ -118,10 +118,10 @@ export const Detail = ({ id }: { id?: string }) => {
         </Descriptions.Item>
 
         <Descriptions.Item label="密码">
-            {!myself && <Popconfirm title='是否重置密码，重置后新密码与用户名相同' disabled={editing} onConfirm={onResetPassword}>
-                <Button type="link" loading={resetPwdLoading} disabled={editing}>重置密码</Button>
+            {!myself && <Popconfirm title='是否重置密码，重置后新密码与用户名相同' disabled onConfirm={onResetPassword}>
+                <Button type="link" loading={resetPwdLoading} disabled>重置密码</Button>
             </Popconfirm>}
-            {myself && <Button onClick={() => setReseting(true)} type="link" disabled={reseting || editing}>重置密码</Button>}
+            {myself && <Button onClick={() => setReseting(true)} type="link" disabled>重置密码</Button>}
 
         </Descriptions.Item>
 
@@ -130,7 +130,7 @@ export const Detail = ({ id }: { id?: string }) => {
     const btngp = <Button.Group>
         {editing && <Popconfirm title="你确定吗？" onConfirm={() => form.submit()}><Button htmlType="submit" type="primary" loading={loading}>保存</Button></Popconfirm>}
         {editing && <Button onClick={() => setEditing(false)}>取消</Button>}
-        {!editing && <Button type="primary" onClick={() => setEditing(true)}>编辑信息</Button>}
+        {!editing && <Button type="primary" onClick={() => setEditing(true)} disabled={!myself} >编辑信息</Button>}
     </Button.Group>;
 
 
