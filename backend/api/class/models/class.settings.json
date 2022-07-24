@@ -2,7 +2,8 @@
   "kind": "collectionType",
   "collectionName": "classes",
   "info": {
-    "name": "class"
+    "name": "class",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -18,6 +19,12 @@
       "via": "class",
       "plugin": "users-permissions",
       "collection": "user"
+    },
+    "department": {
+      "type": "string"
+    },
+    "grade": {
+      "type": "string"
     }
   }
 }

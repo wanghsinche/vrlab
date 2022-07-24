@@ -27,7 +27,7 @@ const columns = [
         title: '班级',
         dataIndex: 'class',
         key: 'class',
-        render: (v: any) => <Tag>{v?.name}</Tag>
+        render: (v: any) => <Tag>{v?.grade}-{v?.department}-{v?.name}</Tag>
     },
     {
         title: '角色权限',
@@ -72,8 +72,9 @@ const Student = () => {
             filterOption={(input, option) =>
                 (option?.label as string).toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
-            onChange={s => setClass(s)} options={classData?.classes?.map(el => ({
-                label: el!.name!, value: el!.id!
+            onChange={s => setClass(s)} 
+            options={classData?.classes?.map(el => ({
+                label: `${el!.grade!}-${el!.department!}-${el!.name!}`, value: el!.id!
             }))} />
     </Space>;
 

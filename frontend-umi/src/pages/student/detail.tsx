@@ -109,7 +109,7 @@ export const Detail = ({ id }: { id?: string;  }) => {
                         (option?.label as string).toLowerCase().indexOf(input.toLowerCase()) >= 0
                     }
                     style={{ minWidth: 100 }} disabled={!editing} options={classData?.classes?.map(el => ({
-                        label: el!.name, value: el!.id,
+                        label: `${el!.grade!}-${el!.department!}-${el!.name!}`, value: el!.id,
                     }))} />
             </FormItem>
         </Descriptions.Item>

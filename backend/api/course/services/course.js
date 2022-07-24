@@ -15,6 +15,9 @@ function extractInfo(list){
         }
         return {
             id: el.id,
+            className: el.student.class.name,
+            gradeName: el.student.class.grade,
+            department: el.student.class.department,
             username: el.student.username,
             realname: el.student.realname,
             realid: el.student.realid,
@@ -40,6 +43,9 @@ module.exports = {
         worksheet.columns = [
             { header: 'id', key: 'id', width: 10 },
             { header: 'course', key: 'course', width: 30, },
+            { header: 'className', key: 'className', width: 30, },
+            { header: 'gradeName', key: 'gradeName', width: 30, },
+            { header: 'department', key: 'department', width: 30, },
             { header: 'username', key: 'username', width: 30 },
             { header: 'realname', key: 'realname', width: 30 },
             { header: 'realid', key: 'realid', width: 30 },
@@ -47,7 +53,7 @@ module.exports = {
         ].concat(courseDetail.meta.required.map(el=>({
             header: el, key: el, width: 10,
         })));
-        const scoreList = await strapi.query('score').find(params, ['course', 'student']);
+        const scoreList = await strapi.query('score').find(params, ['course', 'student', 'student.class']);
         worksheet.addRows(extractInfo(scoreList));
      
         return workbook;

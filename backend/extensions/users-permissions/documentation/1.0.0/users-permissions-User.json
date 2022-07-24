@@ -1343,6 +1343,12 @@
                   "type": "string"
                 }
               },
+              "department": {
+                "type": "string"
+              },
+              "grade": {
+                "type": "string"
+              },
               "published_at": {
                 "type": "string"
               },

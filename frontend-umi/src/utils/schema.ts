@@ -110,7 +110,7 @@ query profile($id:ID!){
 export const CLASSES = gql`
 query classroom{
   classes{
-    id, name
+    id, name, grade, department
   }
 }
 `;
@@ -127,7 +127,7 @@ mutation updateProfile($realname:String, $realid:String, $email:String, $class:I
   }){
     user{
       email, username, class{
-        name, id
+        name, id, department, grade
       }, realid, realname
     }
   }
@@ -152,7 +152,7 @@ query listUsers($classroom:ID){
     role{
       name
     }, class{
-      id, name
+      id, name, department, grade
     },
     realid, realname, email, username, id
   }
@@ -230,15 +230,15 @@ mutation updateCourse($name:String!, $description: String!, $id:ID!, $available:
 export const listClass = gql`
 query listClass{
   classes{
-    id, name, created_at
+    id, name, created_at, grade, department
   }
 }
 `;
 
 export const updateClass = gql`
-mutation updateClass($name:String!, $id:ID!){
+mutation updateClass($name:String!, $id:ID!, $grade:String!, $department:String!){
   updateClass(input:{
-    data:{name:$name},where:{id:$id}
+    data:{name:$name,grade:$grade,department:$department},where:{id:$id}
   }){
     class{
       id
@@ -248,10 +248,10 @@ mutation updateClass($name:String!, $id:ID!){
 `;
 
 export const createClass = gql`
-mutation createClass($name:String!){
+mutation createClass($name:String!, $grade:String!, $department:String!){
   createClass(input:{
     data:{
-      name:$name
+      name:$name,grade:$grade,department:$department
     }
   }){
     class{
