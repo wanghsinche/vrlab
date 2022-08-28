@@ -95,8 +95,8 @@ const Add = () => {
         <Form.Item label="课程名称" name="name">
             <Input disabled={state.current === 2} />
         </Form.Item>
-        <Form.Item label="课程描述" name="description">
-            <Input.TextArea disabled={state.current === 2} />
+        <Form.Item label="课程信息" extra="用于填写老师，学院，班级等信息" name="description">
+            <Input.TextArea disabled={state.current === 2} placeholder="格式: [老师] 学院 班级" />
         </Form.Item>
         <Form.Item label="课程封面" name="cover" valuePropName="src">
             <img width="200" height="100" />

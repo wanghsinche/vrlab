@@ -20,7 +20,7 @@ const columns = [
         key: 'name',
     },
     {
-        title: '课程描述',
+        title: '课程信息',
         dataIndex: 'description',
         key: 'description',
         ellipsis: 20,

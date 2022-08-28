@@ -60,7 +60,7 @@ const Detail = ({ id }: { id?: string }) => {
             <IsTemplate />
         </Form.Item>
 
-        <Form.Item label="课程描述" name="description" rules={[{required:true}]}>
+        <Form.Item label="课程信息" extra="用于填写老师，学院，班级等信息" name="description" rules={[{required:true}]}>
             <Input.TextArea />
         </Form.Item>
         <Form.Item label="是否可用" name="available" rules={[{required:true}]} valuePropName="checked">

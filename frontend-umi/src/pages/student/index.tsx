@@ -66,7 +66,7 @@ const Student = () => {
     const addon = <Space>
         <Input.Search placeholder="查询学号，邮箱，姓名" onSearch={(s) => setFilter(s)} allowClear />
         <Select value={currentClass}
-            style={{ minWidth: 100 }}
+            style={{ minWidth: 400 }}
             showSearch
             allowClear
             filterOption={(input, option) =>

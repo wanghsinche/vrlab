@@ -1711,6 +1711,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'UsersPermissionsMe', id: string, email: string, username: string, role?: Maybe<{ __typename?: 'UsersPermissionsMeRole', name: string }> }> };
 
+export type ListCoursesQueryQueryVariables = Exact<{
+  search?: Maybe<Scalars['String']>;
+}>;
+
+
+export type ListCoursesQueryQuery = { __typename?: 'Query', courses?: Maybe<Array<Maybe<{ __typename?: 'Course', id: string, name?: Maybe<string>, description?: Maybe<string>, available: boolean, isTemplate?: Maybe<boolean>, cover?: Maybe<{ __typename?: 'UploadFile', url: string }> }>>>, coursesConnection?: Maybe<{ __typename?: 'CourseConnection', aggregate?: Maybe<{ __typename?: 'CourseAggregator', count?: Maybe<number> }> }> };
+
 export type ListCoursesQueryVariables = Exact<{ [key: string]: never; }>;
 
 

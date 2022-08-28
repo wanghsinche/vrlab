@@ -21,6 +21,25 @@ query me{
 }
 `;
 
+export const LIST_COURSES_QUERY = gql`
+query listCoursesQuery($search:String){
+  courses(where:{
+      description_contains:$search,
+      available: true
+    }){
+        id, 
+        name, description, cover{
+            url
+        }, available, isTemplate
+    }
+    coursesConnection{
+        aggregate{
+        count
+        }
+    }
+}
+`;
+
 export const LIST_COURSES = gql`
 query listCourses{
     courses{

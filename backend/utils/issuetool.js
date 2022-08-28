@@ -5,7 +5,7 @@ const id =  process.argv[2];
 // 'laptop-kvi6fqng';
 
 var payload = {
-    expireAt: moment().add('60','days').valueOf(),
+    expireAt: moment().add('60','months').valueOf(),
     id
 };
 
