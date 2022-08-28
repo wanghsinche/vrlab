@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card, Input, Empty } from 'antd';
+import { Card, Input, Empty, Spin } from 'antd';
 import { ApolloProvider, useQuery } from '@apollo/client';
 import { client, serverURL } from '@/utils/graphql';
 import { LIST_COURSES_QUERY, ME } from '@/utils/schema';
@@ -18,7 +18,7 @@ const Course: React.FC = () => {
 
     const [searchV, setSearchV] = useState<string>();
     const [filter, setFilter] = useState<string | null | undefined>(null);
-    const { data } = useQuery<ListCoursesQueryQuery, ListCoursesQueryQueryVariables>(LIST_COURSES_QUERY, {
+    const { data, loading } = useQuery<ListCoursesQueryQuery, ListCoursesQueryQueryVariables>(LIST_COURSES_QUERY, {
         // fetchPolicy: "no-cache",
         variables: {
             search: filter
@@ -45,9 +45,11 @@ const Course: React.FC = () => {
     return <ContentLayout title="进行中的课程">
         <Toolbar ><Input.Search allowClear value={searchV} onChange={(e) => setSearchV(e.target.value)} onSearch={(v) => setFilter(v)} placeholder="根据老师，学院或班级查找" /></Toolbar>
         {!items?.length && <Empty >请重新搜索</Empty>}
+        <Spin spinning={loading}>
         <div style={{ display: "flex", justifyContent: "flex-start", width: "100%", flexWrap: "wrap" }}>
             {items}
         </div>
+        </Spin>
     </ContentLayout>;
 }
 
