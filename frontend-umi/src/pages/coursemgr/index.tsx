@@ -1,4 +1,4 @@
-import { Table, Tag, Space, Button } from 'antd';
+import { Table, Tag, Space, Button, Input } from 'antd';
 import { ContentLayout, Toolbar } from '@/components/contentlayout';
 import { ApolloProvider, useQuery } from '@apollo/client';
 import { client, serverURL } from '@/utils/graphql';
@@ -6,6 +6,8 @@ import { ListCoursesQuery } from '@/generated/graphql';
 import { LIST_COURSES } from '@/utils/schema';
 import { downloadFile } from './download';
 import { Link } from 'react-router-dom';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { throttle } from '@/utils/throttle';
 
 const columns = [
     {
@@ -37,7 +39,7 @@ const columns = [
         title: '课程状态',
         dataIndex: 'available',
         key: 'available',
-        render: (v: boolean, rec: any) => rec.isTemplate? <Tag color="blue">课程模板</Tag> : v ? <Tag color="green">进行中</Tag> : <Tag color="volcano">已停课</Tag>
+        render: (v: boolean, rec: any) => rec.isTemplate ? <Tag color="blue">课程模板</Tag> : v ? <Tag color="green">进行中</Tag> : <Tag color="volcano">已停课</Tag>
     },
     {
         title: '操作',
@@ -55,17 +57,20 @@ const columns = [
 ];
 
 const CourseMgr = () => {
-    const { data: courseData, loading } = useQuery<ListCoursesQuery>(LIST_COURSES,{
-        fetchPolicy:"no-cache"
+    const [filter, setFilter] = useState<string>('');
+
+    const { data: courseData, loading } = useQuery<ListCoursesQuery>(LIST_COURSES, {
+        fetchPolicy: "no-cache"
     });
 
-    const data: any = courseData?.courses;
+    const data: any = useMemo(() => filter ? courseData?.courses?.filter(el => el?.description?.includes(filter)) : courseData?.courses, [filter, courseData?.courses]);
 
     return <ContentLayout title="课程管理">
         <Toolbar >
+            <Input.Search placeholder="根据老师，学院或班级查找" allowClear onSearch={v => setFilter(v)} />
             <Link to="/manage/coursemgr/add"><Button type="primary">添加课程</Button></Link>
         </Toolbar>
-        <Table columns={columns as any} dataSource={data} loading={loading} rowKey="id"/>
+        <Table columns={columns as any} dataSource={data} loading={loading} rowKey="id" />
     </ContentLayout>;
 };
 

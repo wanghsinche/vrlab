@@ -44,7 +44,7 @@ const Course: React.FC = () => {
 
     return <ContentLayout title="进行中的课程">
         <Toolbar ><Input.Search allowClear value={searchV} onChange={(e) => setSearchV(e.target.value)} onSearch={(v) => setFilter(v)} placeholder="根据老师，学院或班级查找" /></Toolbar>
-        {!items?.length && <Empty >请重新搜索</Empty>}
+        {!items?.length&& !loading&& <Empty >请重新搜索</Empty>}
         <Spin spinning={loading}>
         <div style={{ display: "flex", justifyContent: "flex-start", width: "100%", flexWrap: "wrap" }}>
             {items}
