@@ -26,7 +26,7 @@ query listCoursesQuery($search:String){
   courses(where:{
       description_contains:$search,
       available: true
-    }){
+    },limit:100){
         id, 
         name, description, cover{
             url
