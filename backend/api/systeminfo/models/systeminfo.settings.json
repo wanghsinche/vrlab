@@ -2,7 +2,8 @@
   "kind": "singleType",
   "collectionName": "systeminfos",
   "info": {
-    "name": "systeminfo"
+    "name": "systeminfo",
+    "description": ""
   },
   "options": {
     "increments": true,
@@ -25,6 +26,9 @@
     },
     "config": {
       "type": "json"
+    },
+    "resource_server": {
+      "type": "text"
     }
   }
 }

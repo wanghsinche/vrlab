@@ -317,7 +317,8 @@ query getSystemInfo{
     frontend,
     server,
     product,
-    request
+    request,
+    resource_server
   }
 }
 `;

@@ -15,7 +15,6 @@ exports.getLicenseState = function(){
 
 exports.licenseVerify = function(){
     console.log('verify license', id);
-    
     const url = 'https://gitee.com/vr-lab/vrlab-license-center/raw/master/license/'+id+'.cert';
     
     return axios.get(url)
@@ -42,5 +41,5 @@ exports.licenseVerify = function(){
 
 
 if (require.main){
-    exports.licenseVerify();
+    // exports.licenseVerify();
 }

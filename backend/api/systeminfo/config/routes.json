@@ -9,6 +9,14 @@
       }
     },
     {
+      "method": "GET",
+      "path": "/systeminfo/getResource",
+      "handler": "systeminfo.getResource",
+      "config": {
+        "policies": []
+      }
+    },
+    {
       "method": "PUT",
       "path": "/systeminfo",
       "handler": "systeminfo.update",

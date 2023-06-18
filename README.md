@@ -1,7 +1,11 @@
 # VRLAB
 > a LMS learning manage system using strapi and umijs
 
+## Doc
+https://strapi.gitee.io/documentation/3.0.0-alpha.x/guides/responses.html#response
+
 ## Getting Started
+
 
 Install dependencies,
 

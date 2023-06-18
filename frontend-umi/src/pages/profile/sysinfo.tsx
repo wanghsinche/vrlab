@@ -33,6 +33,9 @@ export function SysInfo() {
                     </div>
                 ))}
             </Descriptions.Item>
+            <Descriptions.Item label="内网静态资源服务器">
+                {systemData?.systeminfo?.resource_server?.split('\n').map(el=><div key={el}>{el}</div>)}
+            </Descriptions.Item>
         </Descriptions>
     </div>;
 }

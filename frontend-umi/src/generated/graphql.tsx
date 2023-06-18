@@ -895,6 +895,7 @@ export type Systeminfo = {
   product?: Maybe<Scalars['String']>;
   published_at?: Maybe<Scalars['DateTime']>;
   request?: Maybe<Scalars['String']>;
+  resource_server?: Maybe<Scalars['String']>;
   server?: Maybe<Scalars['String']>;
   updated_at: Scalars['DateTime'];
 };
@@ -906,6 +907,7 @@ export type SysteminfoInput = {
   product?: Maybe<Scalars['String']>;
   published_at?: Maybe<Scalars['DateTime']>;
   request?: Maybe<Scalars['String']>;
+  resource_server?: Maybe<Scalars['String']>;
   server?: Maybe<Scalars['String']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -1591,6 +1593,7 @@ export type EditSysteminfoInput = {
   product?: Maybe<Scalars['String']>;
   published_at?: Maybe<Scalars['DateTime']>;
   request?: Maybe<Scalars['String']>;
+  resource_server?: Maybe<Scalars['String']>;
   server?: Maybe<Scalars['String']>;
   updated_by?: Maybe<Scalars['ID']>;
 };
@@ -1875,4 +1878,4 @@ export type GetGlobalQuery = { __typename?: 'Query', global?: Maybe<{ __typename
 export type GetSystemInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSystemInfoQuery = { __typename?: 'Query', systeminfo?: Maybe<{ __typename?: 'Systeminfo', config?: Maybe<any>, frontend?: Maybe<string>, server?: Maybe<string>, product?: Maybe<string>, request?: Maybe<string> }> };
+export type GetSystemInfoQuery = { __typename?: 'Query', systeminfo?: Maybe<{ __typename?: 'Systeminfo', config?: Maybe<any>, frontend?: Maybe<string>, server?: Maybe<string>, product?: Maybe<string>, request?: Maybe<string>, resource_server?: Maybe<string> }> };
